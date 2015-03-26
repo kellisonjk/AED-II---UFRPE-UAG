@@ -14,11 +14,10 @@
 class TreeNode {
 
 	public:
-		TreeNode(int key, int value, TreeNode parent);
+		TreeNode();
+		TreeNode(int);
 		virtual ~TreeNode();
-	private:
 		int key;
-		int value;
 
 		// Ponteiros para os  nós filhos da esquerda e direita e para o nó pai
 		TreeNode *left;
