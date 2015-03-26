@@ -16,7 +16,7 @@ class Tree {
 		Tree(TreeNode*);
 		void AddNode(TreeNode*);
 		void RemoveNode(TreeNode*);
-		TreeNode* SearchNode(int);
+		TreeNode* SearchNode(TreeNode*, int);
 		TreeNode* MaximumNode(TreeNode*);
 		TreeNode* MinimumNode(TreeNode*);
 		TreeNode* Successor(TreeNode*);

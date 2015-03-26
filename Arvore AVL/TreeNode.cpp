@@ -21,6 +21,7 @@ TreeNode::TreeNode(int key) {
 }
 
 TreeNode::TreeNode() {
+	this->key = NULL;
 	this->parent = NULL;
 	this->left = NULL;
 	this->right = NULL;

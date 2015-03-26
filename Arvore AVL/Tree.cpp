@@ -34,14 +34,13 @@ void Tree::AddNode(TreeNode *node){
 			temp = temp->left;
 		else
 			temp = temp->right;
-
 	}
 
 	node->parent = ant;
 
 	if(ant == NULL){
 		this->root = node;
-		cout << "Add ... " << node->key << endl;
+		cout << "Added ... " << node->key << endl;
 	}
 	else{
 		if (node->key < ant->key){
@@ -51,13 +50,29 @@ void Tree::AddNode(TreeNode *node){
 			ant->right = node;
 		}
 
-		cout << "Add ... " << node->key << endl;
+		cout << "Added ... " << node->key << endl;
 	}
 }
 
 // Procura e retorna um nó na árvore
-TreeNode* Tree::SearchNode(int key){
-	return NULL;
+TreeNode* Tree::SearchNode(TreeNode *node, int key){
+	if(node != NULL){
+		if(node->key == key){
+			cout << " " << node->key << " ";
+			return node;
+		}
+		if(key < node->key){
+			cout << " " << node->key << " ";
+			SearchNode(node->left, key);
+		}
+		else{
+			cout << " " << node->key << " ";
+			SearchNode(node->right, key);
+		}
+	}
+	else{
+		return NULL;
+	}
 }
 
 // Remove um nó da árvore através da chave passada como parâmetro
