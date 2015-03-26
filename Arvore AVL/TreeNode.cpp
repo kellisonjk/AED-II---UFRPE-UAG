@@ -8,22 +8,15 @@
  */
 
 #include "TreeNode.h"
-#include <cstdlib>
-using namespace std;
 
 // Inicializa um novo nó ligando-o ao nó pai,
 // no caso do nó raiz, o valor para "father" deverá ser nulo
-TreeNode::TreeNode(int key) {
+TreeNode::TreeNode(int key, int value, TreeNode parent) {
 	this->key = key;
-	this->parent = NULL;
-	this->left = NULL;
-	this->right = NULL;
-}
-
-TreeNode::TreeNode() {
-	this->parent = NULL;
-	this->left = NULL;
-	this->right = NULL;
+	this->value = value;
+	this->parent = parent;
+	this->left = nullptr;
+	this->right = nullptr;
 }
 
 TreeNode::~TreeNode() {

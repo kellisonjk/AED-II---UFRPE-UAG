@@ -12,21 +12,14 @@
 
 class Tree {
 	public:
-		Tree();
-		Tree(TreeNode*);
-		void AddNode(TreeNode*);
-		void RemoveNode(TreeNode*);
-		TreeNode* SearchNode(int);
-		TreeNode* MaximumNode(TreeNode*);
-		TreeNode* MinimumNode(TreeNode*);
-		TreeNode* Successor(TreeNode*);
-		TreeNode* Predecessor(TreeNode*);
-		void PrintInOrder();
-		void PrintInOrder(TreeNode*);
-		int Root();
+		Tree(TreeNode root);
+		void AddNode(int key, int value);
+		void RemoveNode(int key);
+		TreeNode SearchNode(int key);
+
 		virtual ~Tree();
 	private:
-		TreeNode *root;
+		TreeNode root;
 		int height;
 
 
