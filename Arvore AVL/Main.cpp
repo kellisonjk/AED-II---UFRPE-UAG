@@ -12,42 +12,51 @@
 using namespace std;
 
 int main() {
-	TreeNode root (20), *resultadoBusca;
-	TreeNode node[6]{(8),(12), (10), (4), (14), (22)};
-	Tree arvore (&root);
+	TreeNode *resultadoBusca;
+	Tree arvore;
 
-	cout << "\nRoot:" << arvore.Root() << endl;
+	arvore.addNode(20);
+	arvore.addNode(8);
+	arvore.addNode(12);
+	arvore.addNode(10);
+	arvore.addNode(4);
+	arvore.addNode(14);
+	arvore.addNode(22);
 
-	arvore.AddNode(&node[0]);
-	arvore.AddNode(&node[1]);
-	arvore.AddNode(&node[2]);
-	arvore.AddNode(&node[3]);
-	arvore.AddNode(&node[4]);
-	arvore.AddNode(&node[5]);
-
-	cout << "Máximo:" << arvore.MaximumNode(&root)->key << endl;
-	cout << "Mínimo:" << arvore.MinimumNode(&root)->key << endl;
-
-	cout << "\nSucessor do nó [10]: " << arvore.Successor(&node[2])->key << endl;
-	cout << "Sucessor do nó [8]: " << arvore.Successor(&node[0])->key << endl;
-
-	cout << "\nAntecessor do nó [22]: " << arvore.Predecessor(&node[5])->key << endl;
-	cout << "Antecessor do nó [10]: " << arvore.Predecessor(&node[2])->key << endl;
-
+	cout << "\nRoot:" << arvore.getRoot()->key << endl;
+	
+	cout << "Maximo:" << arvore.getMaximumNode()->key << endl;
+	cout << "Minimo:" << arvore.getMinimumNode()->key << endl;
+	
+	
+	cout << "\nSucessor do no [10]: " << arvore.getSuccessor(10)->key << endl;
+	cout << "Sucessor do no [8]: " << arvore.getSuccessor(8)->key << endl;
+	
+	cout << "\nAntecessor do no [22]: " << arvore.getPredecessor(22)->key << endl;
+	cout << "Antecessor do no [10]: " << arvore.getPredecessor(10)->key << endl;
+	
 	cout << endl;
-	cout << "Árvore impressa em ordem crescente: ";
-	arvore.PrintInOrder();
-
+	cout << "Arvore impressa em ordem crescente: ";
+	arvore.printInOrder();
+	
 	cout << "Procurar por [10]: " << endl;
-	cout << " - caminho na árvore: ";
-	resultadoBusca = arvore.SearchNode(&root, 10);
-	cout << "\n - resultado: ";
+	//cout << " - caminho na arvore: ";
+	resultadoBusca = arvore.searchNode(10);
+	cout << " - resultado: ";
 
 	if(resultadoBusca != NULL)
-		cout << resultadoBusca->key << endl;
+		cout << resultadoBusca->key << endl << endl;
 	else
-		cout << " Nada encontrado." << endl;
+		cout << " Nada encontrado." << endl << endl;
 
+	cout << "Balaceamento: " << arvore.getBalance() << endl;
+	
+	cout << endl << "Arvore montada:" << endl;
+	arvore.show(arvore.getRoot(), 0);
+
+	cout << endl;
+
+	system("PAUSE");
     return 0;
 }
 

@@ -18,6 +18,15 @@ TreeNode::TreeNode(int key) {
 	this->parent = NULL;
 	this->left = NULL;
 	this->right = NULL;
+	this->balanceFactor = 0;
+}
+
+TreeNode::TreeNode(int key, TreeNode* parent) {
+	this->key = key;
+	this->parent = parent;
+	this->left = NULL;
+	this->right = NULL;
+	this->balanceFactor = 0;
 }
 
 TreeNode::TreeNode() {
@@ -25,6 +34,7 @@ TreeNode::TreeNode() {
 	this->parent = NULL;
 	this->left = NULL;
 	this->right = NULL;
+	this->balanceFactor = 0;
 }
 
 TreeNode::~TreeNode() {

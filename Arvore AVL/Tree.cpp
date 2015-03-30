@@ -18,56 +18,49 @@ Tree::Tree() {
 }
 
 // Inicializa a árvore
-Tree::Tree(TreeNode *root) {
+Tree::Tree(TreeNode* root) {
 	this->root = root;
 }
 
-// Adiciona um novo nó à árvore
-void Tree::AddNode(TreeNode *node){
-	TreeNode *temp = this->root;
-	TreeNode *ant = NULL;
 
-	while (temp != NULL){
-		ant = temp;
+void Tree::addNode(int key){
+	this->addNode(this->root, NULL, key);
+}
 
-		if (node->key < temp->key)
-			temp = temp->left;
-		else
-			temp = temp->right;
-	}
-
-	node->parent = ant;
-
-	if(ant == NULL){
-		this->root = node;
+void Tree::addNode(TreeNode* &node, TreeNode* parent, int key){
+	if (node == NULL){
+		if (parent == NULL)
+			node = this->root;
+		node = new TreeNode(key, parent); 
 		cout << "Added ... " << node->key << endl;
 	}
 	else{
-		if (node->key < ant->key){
-			ant->left = node;
-		}
-		else{
-			ant->right = node;
-		}
-
-		cout << "Added ... " << node->key << endl;
+		if (key <= node->key)
+			addNode(node->left, node, key);
+		else
+			addNode(node->right, node, key);
 	}
+
 }
 
 // Procura e retorna um nó na árvore
-TreeNode* Tree::SearchNode(TreeNode *node, int key){
+TreeNode* Tree::searchNode(int key){
+	return this->searchNode(this->root, key);
+}
+
+TreeNode* Tree::searchNode(TreeNode* node, int key){
 	if(node != NULL){
 		if(node->key == key){
-			cout << " " << node->key << " ";
+			//cout << " " << node->key << " ";
 			return node;
 		}
 		if(key < node->key){
-			cout << " " << node->key << " ";
-			SearchNode(node->left, key);
+			//cout << " " << node->key << " ";
+			searchNode(node->left, key);
 		}
 		else{
-			cout << " " << node->key << " ";
-			SearchNode(node->right, key);
+			//cout << " " << node->key << " ";
+			searchNode(node->right, key);
 		}
 	}
 	else{
@@ -75,13 +68,13 @@ TreeNode* Tree::SearchNode(TreeNode *node, int key){
 	}
 }
 
-// Remove um nó da árvore através da chave passada como parâmetro
-void Tree::RemoveNode(TreeNode *node){
-
-}
 
 // Obtem o nó mínimo da árvore
-TreeNode* Tree::MinimumNode(TreeNode *node){
+TreeNode* Tree::getMinimumNode(){
+	return this->getMinimumNode(this->root);
+}
+
+TreeNode* Tree::getMinimumNode(TreeNode* node){
 	while (node->left != NULL)
 		node = node->left;
 
@@ -89,7 +82,11 @@ TreeNode* Tree::MinimumNode(TreeNode *node){
 }
 
 // Obtem o nó máximo da árvore
-TreeNode* Tree::MaximumNode(TreeNode *node){
+TreeNode* Tree::getMaximumNode(){
+	return this->getMaximumNode(this->root);
+}
+
+TreeNode* Tree::getMaximumNode(TreeNode* node){
 	while (node->right != NULL)
 		node = node->right;
 
@@ -97,11 +94,12 @@ TreeNode* Tree::MaximumNode(TreeNode *node){
 }
 
 // Retorna o sucessor do nó passado como como parâmetro
-TreeNode* Tree::Successor(TreeNode *node){
-	TreeNode *temp;
+TreeNode* Tree::getSuccessor(int key){
+	TreeNode* node = this->searchNode(key);
+	TreeNode* temp;
 
 	if (node->right != NULL)
-		return MinimumNode(node->right);
+		return getMinimumNode(node->right);
 
 	temp = node->parent;
 
@@ -114,11 +112,12 @@ TreeNode* Tree::Successor(TreeNode *node){
 }
 
 // Retorna o antecessor do nó passado como como parâmetro
-TreeNode* Tree::Predecessor(TreeNode *node){
-	TreeNode *temp;
+TreeNode* Tree::getPredecessor(int key){
+	TreeNode* node = this->searchNode(key);
+	TreeNode* temp;
 
 	if (node->left != NULL)
-		return MinimumNode(node->left);
+		return getMinimumNode(node->left);
 
 	temp = node->parent;
 
@@ -131,28 +130,118 @@ TreeNode* Tree::Predecessor(TreeNode *node){
 }
 
 // Imprime a árvore completa a partir da raiz
-void Tree::PrintInOrder() {
-        PrintInOrder(this->root);
+void Tree::printInOrder() {
+        printInOrder(this->root);
 
         cout << endl;
 }
 
 // Imprime uma subárvore X a partir de um nó qualquer
-void Tree::PrintInOrder(TreeNode *node) {
+void Tree::printInOrder(TreeNode* node) {
         if (node != NULL){
-			PrintInOrder(node->left);
+			printInOrder(node->left);
 			cout << node->key << " " ;
-			PrintInOrder(node->right);
+			printInOrder(node->right);
         }
 
 }
 
+// Atualiza o fato de balanceamento de cada nó da árvore
+void Tree::updateBalanceFactor(TreeNode* node){
+	if (node != NULL){
+		node->balanceFactor = this->getBalance(node);
+		updateBalanceFactor(node->left);
+		updateBalanceFactor(node->right);
+	}
+}
+
+int Tree::getBalance(){
+	return this->getBalance(this->root);
+}
+
+int Tree::getBalance(TreeNode* node){
+	return getHeight(node->left) - getHeight(node->right);
+}
+
+// Calcula a altura da árvore (ou sub-árvore)
+int Tree::getHeight(TreeNode* node) {
+
+	int left, right;
+
+	if (node == NULL) 
+		return -1;
+
+	left = getHeight(node->left);
+	right = getHeight(node->right);
+
+	if (left > right) 
+		return left + 1;
+	else 
+		return right + 1;
+}
+
 // Retorna o valor raíz da árvore
-int Tree::Root(){
-	return this->root->key;
+TreeNode* Tree::getRoot(){
+	return this->root;
+}
+
+// Verifica se a sub-árvore necessita ser balanceada,
+// caso seja necessário, realiza o balanceamento
+void Tree::verifyBalance(TreeNode* node){
+		if (node->balanceFactor == -2){
+			if ((node->left != NULL) && (node->left->balanceFactor == -1))
+				this->rotateRight(node->right);
+			this->rotateLeft(node);
+		}
+		else if (node->balanceFactor == 2){
+			if ((node->right != NULL) && (node->right->balanceFactor == 1))
+				this->rotateLeft(node->left);
+			this->rotateRight(node);
+		}
+
+}
+
+void Tree::rotateLeft(TreeNode* node){
+	TreeNode* temp = node;
+	TreeNode* aux = temp->right;
+	temp->right = aux->left;
+	aux->left = temp;
+	node = aux;
+	this->updateBalanceFactor(temp);
+	this->updateBalanceFactor(aux);
+}
+
+void Tree::rotateRight(TreeNode* node){
+	TreeNode* temp = node;
+	TreeNode* aux = temp->left;
+	temp->left = aux->right;
+	aux->right = temp;
+	node = aux;
+	this->updateBalanceFactor(temp);
+	this->updateBalanceFactor(aux);
 }
 
 Tree::~Tree() {
 	// TODO Auto-generated destructor stub
 }
 
+
+
+void Tree::show(TreeNode *x, int b) {
+	if (x == NULL) {
+		printnode(0, b, 1);
+		return;
+	}
+	printnode(x->key, b, 0);
+	show(x->right, b + 1);
+	show(x->left, b + 1);
+}
+
+void Tree::printnode(int c, int b, int sep) {
+	int i;
+	for (i = 0; i < b; i++) printf(" - ");
+		if (sep == 0)
+			printf("%d\n", c);
+		else
+			printf("*\n", c);
+}
