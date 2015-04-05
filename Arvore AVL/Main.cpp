@@ -15,32 +15,27 @@ int main() {
 	TreeNode *resultadoBusca;
 	Tree arvore;
 
-	arvore.addNode(20);
-	arvore.addNode(8);
-	arvore.addNode(12);
-	arvore.addNode(10);
+	arvore.addNode(1);
+	arvore.addNode(2);
 	arvore.addNode(4);
-	arvore.addNode(14);
-	arvore.addNode(22);
+	arvore.addNode(3);
+	arvore.addNode(5);
+	arvore.addNode(9);
+	arvore.addNode(0);
+	arvore.addNode(6);
+	arvore.addNode(-6);
+	arvore.addNode(-7);
 
 	cout << "\nRoot:" << arvore.getRoot()->key << endl;
 	
 	cout << "Maximo:" << arvore.getMaximumNode()->key << endl;
 	cout << "Minimo:" << arvore.getMinimumNode()->key << endl;
 	
-	
-	cout << "\nSucessor do no [10]: " << arvore.getSuccessor(10)->key << endl;
-	cout << "Sucessor do no [8]: " << arvore.getSuccessor(8)->key << endl;
-	
-	cout << "\nAntecessor do no [22]: " << arvore.getPredecessor(22)->key << endl;
-	cout << "Antecessor do no [10]: " << arvore.getPredecessor(10)->key << endl;
-	
 	cout << endl;
 	cout << "Arvore impressa em ordem crescente: ";
 	arvore.printInOrder();
 	
 	cout << "Procurar por [10]: " << endl;
-	//cout << " - caminho na arvore: ";
 	resultadoBusca = arvore.searchNode(10);
 	cout << " - resultado: ";
 
@@ -56,7 +51,9 @@ int main() {
 
 	cout << endl;
 
-	system("PAUSE");
+	cout << "Pressione <ENTER> para sair..." << endl;
+	std::cin.ignore();
+
     return 0;
 }
 

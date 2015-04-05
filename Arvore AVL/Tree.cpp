@@ -3,12 +3,19 @@
  *
  *  Created on: Mar 24, 2015
  *      Author: Kellison
+ *      Descrição:
+ *      	Implementação da classe Tree, uma árvore AVL, com os métodos:
+ *			- inserção, procura, mínimo e máximo, exibição da árvore, altura, predecessor, antecessor, 
+ *            impressão em ordem crescente
+ *          - Falta implementar: remoção
  */
 
 #include "Tree.h"
 #include "TreeNode.h"
-#include <cstdlib>
+#include <cstdio>
 #include <iostream>
+#include <string>
+#include <algorithm>
 
 using namespace std;
 
@@ -24,23 +31,27 @@ Tree::Tree(TreeNode* root) {
 
 
 void Tree::addNode(int key){
-	this->addNode(this->root, NULL, key);
+	TreeNode* parent;
+	parent = NULL;
+	this->addNode(this->root, parent, key);
 }
 
-void Tree::addNode(TreeNode* &node, TreeNode* parent, int key){
+void Tree::addNode(TreeNode* &node, TreeNode* parent, int key){	
 	if (node == NULL){
-		if (parent == NULL)
-			node = this->root;
-		node = new TreeNode(key, parent); 
+		node = new TreeNode(key, parent);
 		cout << "Added ... " << node->key << endl;
+		
+		this->verifyBalance(node, "add");
 	}
 	else{
-		if (key <= node->key)
+		if (key < node->key){
 			addNode(node->left, node, key);
-		else
+		}
+		else if (key >= node->key){
 			addNode(node->right, node, key);
+		}
 	}
-
+	
 }
 
 // Procura e retorna um nó na árvore
@@ -51,15 +62,12 @@ TreeNode* Tree::searchNode(int key){
 TreeNode* Tree::searchNode(TreeNode* node, int key){
 	if(node != NULL){
 		if(node->key == key){
-			//cout << " " << node->key << " ";
 			return node;
 		}
 		if(key < node->key){
-			//cout << " " << node->key << " ";
 			searchNode(node->left, key);
 		}
 		else{
-			//cout << " " << node->key << " ";
 			searchNode(node->right, key);
 		}
 	}
@@ -97,17 +105,17 @@ TreeNode* Tree::getMaximumNode(TreeNode* node){
 TreeNode* Tree::getSuccessor(int key){
 	TreeNode* node = this->searchNode(key);
 	TreeNode* temp;
+	if (node != NULL){
+		if (node->right != NULL)
+			return getMinimumNode(node->right);
 
-	if (node->right != NULL)
-		return getMinimumNode(node->right);
+		temp = node->parent;
 
-	temp = node->parent;
-
-	while ((temp != NULL) && (node == temp->right)){
-      node = temp;
-      temp = node->parent;
+		while ((temp != NULL) && (node == temp->right)){
+			node = temp;
+			temp = node->parent;
+		}
 	}
-
 	return temp;
 }
 
@@ -143,41 +151,27 @@ void Tree::printInOrder(TreeNode* node) {
 			cout << node->key << " " ;
 			printInOrder(node->right);
         }
-
 }
 
-// Atualiza o fato de balanceamento de cada nó da árvore
-void Tree::updateBalanceFactor(TreeNode* node){
-	if (node != NULL){
-		node->balanceFactor = this->getBalance(node);
-		updateBalanceFactor(node->left);
-		updateBalanceFactor(node->right);
-	}
-}
-
+// Verifica o valor do fator de balanceamento a partir da raiz
 int Tree::getBalance(){
 	return this->getBalance(this->root);
 }
 
+// Verifica o valor do fator de balanceamento a partir de um nó qualquer
 int Tree::getBalance(TreeNode* node){
+	if (node != NULL)
 	return getHeight(node->left) - getHeight(node->right);
 }
 
 // Calcula a altura da árvore (ou sub-árvore)
 int Tree::getHeight(TreeNode* node) {
-
 	int left, right;
-
 	if (node == NULL) 
 		return -1;
 
-	left = getHeight(node->left);
-	right = getHeight(node->right);
-
-	if (left > right) 
-		return left + 1;
-	else 
-		return right + 1;
+	// Pega o maior entre as alturas da esquerda e direta e soma com 1
+	return max(getHeight(node->left), getHeight(node->right)) + 1;
 }
 
 // Retorna o valor raíz da árvore
@@ -185,63 +179,145 @@ TreeNode* Tree::getRoot(){
 	return this->root;
 }
 
-// Verifica se a sub-árvore necessita ser balanceada,
-// caso seja necessário, realiza o balanceamento
-void Tree::verifyBalance(TreeNode* node){
-		if (node->balanceFactor == -2){
-			if ((node->left != NULL) && (node->left->balanceFactor == -1))
-				this->rotateRight(node->right);
-			this->rotateLeft(node);
-		}
-		else if (node->balanceFactor == 2){
-			if ((node->right != NULL) && (node->right->balanceFactor == 1))
-				this->rotateLeft(node->left);
-			this->rotateRight(node);
-		}
+// Verifica se a sub-arvore necessita ser balanceada,
+// caso seja necessario, realiza o balanceamento
+void Tree::verifyBalance(TreeNode* node, std::string typeOperation){
 
-}
-
-void Tree::rotateLeft(TreeNode* node){
-	TreeNode* temp = node;
-	TreeNode* aux = temp->right;
-	temp->right = aux->left;
-	aux->left = temp;
-	node = aux;
-	this->updateBalanceFactor(temp);
-	this->updateBalanceFactor(aux);
-}
-
-void Tree::rotateRight(TreeNode* node){
-	TreeNode* temp = node;
-	TreeNode* aux = temp->left;
-	temp->left = aux->right;
-	aux->right = temp;
-	node = aux;
-	this->updateBalanceFactor(temp);
-	this->updateBalanceFactor(aux);
-}
-
-Tree::~Tree() {
-	// TODO Auto-generated destructor stub
-}
-
-
-
-void Tree::show(TreeNode *x, int b) {
-	if (x == NULL) {
-		printnode(0, b, 1);
+	if ((node == NULL) || (typeOperation == "stop")){
 		return;
 	}
-	printnode(x->key, b, 0);
-	show(x->right, b + 1);
-	show(x->left, b + 1);
+
+	// Caso haja desbalanceamento no nó 
+	if ((this->getBalance(node) < -1) || (this->getBalance(node) > 1)){
+
+		// Chama a função responsável por realizar o balanceamento (escolhendo 
+		// a rotação esquerda, direita ou duplas
+		this->doBalance(node);
+
+		// Caso esse tenha sido um processo de inserção, cancela a verificação
+		if (typeOperation == "add")
+			this->verifyBalance(node->parent, "stop");
+	} 
+	else{
+		// Continua verificando
+		this->verifyBalance(node->parent, "continue");
+	}
+	
 }
 
-void Tree::printnode(int c, int b, int sep) {
+// Realiza o balanceamento da árvore
+void Tree::doBalance(TreeNode* node){
+	TreeNode* aux;
+
+	// sub-arvore esquerda é maior que a direita
+	if (this->getBalance(node) == -2){
+		aux = node->right;
+		// Realiza a rotação direita - esquerda
+		if (this->getBalance(aux) == 1){
+			this->rotateRight(aux);
+		}
+		this->rotateLeft(node);
+	}
+	// sub-arvore esquerda é maior que a direita
+	else if (this->getBalance(node) == 2){
+		aux = node->left;
+		// Realiza a rotação esquerda - direita
+		if (this->getBalance(aux) == -1){
+			this->rotateLeft(aux);
+		}
+		this->rotateRight(node); 
+	}
+}
+
+// Realiza a rotação esquerda
+void Tree::rotateLeft(TreeNode* &node) {
+	TreeNode* aux;
+	aux = node->right;
+	node->right = aux->left;
+	
+	// Aponta para o pai correto 
+	if (aux->left != NULL) {
+		(aux->left)->parent = node;
+	}
+
+	if (node->parent != NULL) 
+	{
+		if ((node->parent)->right == node){
+			(node->parent)->right = aux;
+		}
+		else{
+			(node->parent)->left = aux;
+		}
+	}
+
+	aux->left = node;
+	aux->parent = node->parent;
+
+	// Atribiui o pai do nó da direita ao nó da esquerda (pai nó da esquerda unsigned)
+	if (aux->right != NULL)
+		(aux->left)->parent = (aux->right)->parent;
+
+	// Caso o nó balanceado seja a raiz, realzia a devida atualização
+	if (aux->parent == NULL)
+		this->root = aux;
+
+	node = aux;
+}
+
+// Realiza a rotação direita
+void Tree::rotateRight(TreeNode* &node) {
+	TreeNode* aux;
+	aux = node->left;
+	node->left = aux->right;
+
+	// Aponta para o pai correto 
+	if (aux->right != NULL) {
+		(aux->right)->parent = node;
+	}
+
+	if (node->parent != NULL)
+	{
+		if ((node->parent)->left == node){
+			(node->parent)->left = aux;
+		}
+		else{
+			(node->parent)->right = aux;
+		}
+	}
+
+	aux->right = node;
+	aux->parent = node->parent;
+
+	// Atribiui o pai do nó da esquerda ao nó da direita (pai nó da direita unsigned)
+	if (aux->left != NULL)
+		(aux->right)->parent = (aux->left)->parent;
+
+	if (aux->parent == NULL)
+		this->root = aux;
+	node = aux;
+}
+
+// Imprime a árvore
+void Tree::show(TreeNode *node, int b) {
+	if (node == NULL) {
+		this->printNode(0, b, 1);
+		return;
+	}
+	this->printNode(node->key, b, 0);
+	this->show(node->right, b + 1);
+	this->show(node->left, b + 1);
+}
+
+void Tree::printNode(int c, int b, int sep) {
 	int i;
 	for (i = 0; i < b; i++) printf(" - ");
 		if (sep == 0)
 			printf("%d\n", c);
 		else
 			printf("*\n", c);
+}
+
+
+Tree::~Tree() {
+	// TODO Auto-generated destructor stub
 }

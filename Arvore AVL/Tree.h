@@ -9,14 +9,15 @@
 #define TREE_H_
 
 #include "TreeNode.h"
+#include <string>
 
 class Tree {
 	public:
 		Tree();
 		Tree(TreeNode*);
 		void addNode(int);
-		void addNode(TreeNode* &node, TreeNode*, int);
-		void removeNode(TreeNode*); // Nao implementado
+		void addNode(TreeNode*&, TreeNode*, int);
+		void removeNode(TreeNode*); // Nao implementado ainda
 		TreeNode* searchNode(int);
 		TreeNode* searchNode(TreeNode*, int);
 		TreeNode* getMaximumNode();
@@ -25,18 +26,18 @@ class Tree {
 		TreeNode* getMinimumNode(TreeNode*);
 		TreeNode* getSuccessor(int);
 		TreeNode* getPredecessor(int);
-		void updateBalanceFactor(TreeNode*);
+		void verifyBalance(TreeNode*, std::string); 
+		void doBalance(TreeNode*);
 		void printInOrder();
 		void printInOrder(TreeNode*);
-		void rotateRight(TreeNode*); // Ainda nao funcinal
-		void rotateLeft(TreeNode*); // Ainda nao funcinal
+		void rotateRight(TreeNode*&); 
+		void rotateLeft(TreeNode*&); 
 		int getBalance();
 		int getBalance(TreeNode*);
 		int getHeight(TreeNode*);
 		TreeNode* getRoot(); 
-		void printnode(int, int, int);
+		void printNode(int, int, int);
 		void show(TreeNode*, int);
-		void verifyBalance(TreeNode*); // Ainda nao funcinal
 		virtual ~Tree();
 	private:
 		TreeNode* root;
