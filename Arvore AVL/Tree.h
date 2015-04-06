@@ -26,7 +26,9 @@ class Tree {
 		TreeNode* getMaximumNode(TreeNode*);
 		TreeNode* getMinimumNode(TreeNode*);
 		TreeNode* getSuccessor(int);
+		TreeNode* getSuccessor(TreeNode*);
 		TreeNode* getPredecessor(int);
+		TreeNode* getPredecessor(TreeNode*);
 		void printInOrder();
 		void printInOrder(TreeNode*); 
 		int getBalance();
@@ -43,7 +45,7 @@ class Tree {
 		void rotateRight(TreeNode*&);
 		void rotateLeft(TreeNode*&);
 		TreeNode* root;
-		int nElements = 0;
+		int nElements = 0; // Número de elementos da árvore
 
 
 };

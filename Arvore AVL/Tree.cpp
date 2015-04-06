@@ -1,13 +1,15 @@
 /*
  * Tree.cpp
  *
- *  Created on: Mar 24, 2015
  *      Author: Kellison
  *      Descrição:
- *      	Implementação da classe Tree, uma árvore AVL, com os métodos:
+ *      	Classe Tree, uma árvore AVL, com os métodos:
  *			- inserção, procura, mínimo e máximo, exibição da árvore, altura, predecessor, antecessor, 
- *            impressão em ordem crescente
- *          - Falta implementar: remoção
+ *            impressão em ordem crescente, e remoção de um nó (para os 3 casos possíveis)
+ *		Status: perto da conclusão
+ *		    - Motivo: verificar método de remoção quando o nó possuir 2 filhos (troca de valores + remoção 
+ *					  do sucessor  ou trocar ponteiros
+ *			- Usar free() ou não é necessário ?
  */
 
 #include "Tree.h"
@@ -92,41 +94,60 @@ void Tree::removeNode(TreeNode* &node){
 
 		// Caos náo possua nenhuma filho, seta os ponteiros filhos do pai como null
 		if (zeroChild){
-			if (node->key > node->parent->key){
-				(node->parent)->right = NULL;
+			// Se não for a raiz
+			if (node->parent != NULL){
+				if (node->key >= node->parent->key){
+					(node->parent)->right = NULL;
+				}
+				else{
+					(node->parent)->left = NULL;
+				}
 			}
 			else{
-				(node->parent)->left = NULL;
+				this->root = NULL;
 			}
 		}
 		// Se possuir apenas um único filho
 		else if (leftChildExists != rightChildExists){
-			/*
-			Aqui s[o funciona caso o no nao seja a raiz, FIX IT!!!!
-			*/
-
+			// Salva em uma variavel auxiliar o nó filho (esquerda ou direita)
 			if (leftChildExists && !rightChildExists)
 				aux = node->left;
 			else if (!leftChildExists && rightChildExists)
 				aux = node->right;
 
-			if (node->key > node->parent->key){
-				aux->parent = node->parent;
-				(node->parent)->right = aux;
+			// Caso nao seja raiz, realiza a devida atribuição pai - filho
+			if (node->parent != NULL){
+				if (node->key >= node->parent->key){
+					aux->parent = node->parent;
+					(node->parent)->right = aux;
+				}
+				else{
+					aux->parent = node->parent;
+					(node->parent)->left = aux;
+				}
 			}
+			// Se for raiz, o filho único passa a ser a nova raiz
 			else{
-				aux->parent = node->parent;
-				(node->parent)->left = aux;
+				aux->parent = NULL;
+				this->root = aux;
 			}
 		}
 		// Para o caso em que o nó possui os dois filhos 
 		else{
+			// Captura o sucessor do nó a ser retirado para sua subsituição 
+			TreeNode* sucessor = this->getSuccessor(node); 
+
+			// Atribui o valor do nó sucessor para o nó a ser retirado, e
+			// remove o nó sucessor
+			int key = sucessor->key;
+			this->removeNode(sucessor);
+			this->nElements++; // Devido a remoção do sucessor (tiraria 2 elementos do contador)
+			node->key = key;
 
 		}
 
 		//free(node);
 		this->nElements--;
-
 		this->verifyBalance(temp, "remove");
 	}
 	else{
@@ -161,7 +182,10 @@ TreeNode* Tree::getMaximumNode(TreeNode* node){
 
 // Retorna o sucessor do nó passado como como parâmetro
 TreeNode* Tree::getSuccessor(int key){
-	TreeNode* node = this->searchNode(key);
+	return this->getSuccessor(this->searchNode(key));
+}
+
+TreeNode* Tree::getSuccessor(TreeNode* node){
 	TreeNode* temp;
 	if (node != NULL){
 		if (node->right != NULL)
@@ -179,7 +203,10 @@ TreeNode* Tree::getSuccessor(int key){
 
 // Retorna o antecessor do nó passado como como parâmetro
 TreeNode* Tree::getPredecessor(int key){
-	TreeNode* node = this->searchNode(key);
+	return this->getPredecessor(this->searchNode(key));
+}
+
+TreeNode* Tree::getPredecessor(TreeNode* node){
 	TreeNode* temp;
 
 	if (node->left != NULL)
