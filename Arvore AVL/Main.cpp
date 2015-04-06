@@ -14,6 +14,7 @@ using namespace std;
 int main() {
 	TreeNode *resultadoBusca;
 	Tree arvore;
+	int key;
 
 	arvore.addNode(1);
 	arvore.addNode(2);
@@ -30,29 +31,33 @@ int main() {
 	
 	cout << "Maximo:" << arvore.getMaximumNode()->key << endl;
 	cout << "Minimo:" << arvore.getMinimumNode()->key << endl;
-	
 	cout << endl;
 	cout << "Arvore impressa em ordem crescente: ";
 	arvore.printInOrder();
 	
-	cout << "Procurar por [10]: " << endl;
-	resultadoBusca = arvore.searchNode(10);
-	cout << " - resultado: ";
-
-	if(resultadoBusca != NULL)
-		cout << resultadoBusca->key << endl << endl;
-	else
-		cout << " Nada encontrado." << endl << endl;
-
-	cout << "Balaceamento: " << arvore.getBalance() << endl;
-	
 	cout << endl << "Arvore montada:" << endl;
 	arvore.show(arvore.getRoot(), 0);
+	cout << endl << "No. de elementos: " << arvore.getNElements() << endl << endl;
+
+
+	int a = 1;
+	while (a == 1){
+		cout << "Remover no da arvore." << endl;
+		cout << "- Digite o no a ser removido: ";
+
+		cin >> key;
+		arvore.removeNode(key);
+
+		cout << endl << "Arvore montada apos remocao do no:" << endl;
+		arvore.show(arvore.getRoot(), 0);
+		cout << endl << "No. de elementos: " << arvore.getNElements() << endl << endl;
+
+		cout << endl << "Digite: 1 - Remover outro no, 0 - Encerrar. :  ";
+		cin >> a;
+	}
 
 	cout << endl;
-
-	cout << "Pressione <ENTER> para sair..." << endl;
-	std::cin.ignore();
+	system("PAUSE");
 
     return 0;
 }

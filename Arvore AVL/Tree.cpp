@@ -40,7 +40,7 @@ void Tree::addNode(TreeNode* &node, TreeNode* parent, int key){
 	if (node == NULL){
 		node = new TreeNode(key, parent);
 		cout << "Added ... " << node->key << endl;
-		
+		this->nElements++;
 		this->verifyBalance(node, "add");
 	}
 	else{
@@ -73,6 +73,64 @@ TreeNode* Tree::searchNode(TreeNode* node, int key){
 	}
 	else{
 		return NULL;
+	}
+}
+
+// Realiza a remo;áo de um nó a partir do resultado da busca pela chave informada
+void Tree::removeNode(int key){
+	TreeNode* node = this->searchNode(key);
+	this->removeNode(node);
+}
+
+void Tree::removeNode(TreeNode* &node){
+	TreeNode* temp = node, *aux;
+	
+	if (node != NULL){
+		bool leftChildExists = (node->left != NULL);
+		bool rightChildExists = (node->right != NULL);
+		bool zeroChild = (node->left == NULL) && (node->right == NULL);
+
+		// Caos náo possua nenhuma filho, seta os ponteiros filhos do pai como null
+		if (zeroChild){
+			if (node->key > node->parent->key){
+				(node->parent)->right = NULL;
+			}
+			else{
+				(node->parent)->left = NULL;
+			}
+		}
+		// Se possuir apenas um único filho
+		else if (leftChildExists != rightChildExists){
+			/*
+			Aqui s[o funciona caso o no nao seja a raiz, FIX IT!!!!
+			*/
+
+			if (leftChildExists && !rightChildExists)
+				aux = node->left;
+			else if (!leftChildExists && rightChildExists)
+				aux = node->right;
+
+			if (node->key > node->parent->key){
+				aux->parent = node->parent;
+				(node->parent)->right = aux;
+			}
+			else{
+				aux->parent = node->parent;
+				(node->parent)->left = aux;
+			}
+		}
+		// Para o caso em que o nó possui os dois filhos 
+		else{
+
+		}
+
+		//free(node);
+		this->nElements--;
+
+		this->verifyBalance(temp, "remove");
+	}
+	else{
+		cout << "Nada encontrado" << endl;
 	}
 }
 
@@ -214,7 +272,9 @@ void Tree::doBalance(TreeNode* node){
 		aux = node->right;
 		// Realiza a rotação direita - esquerda
 		if (this->getBalance(aux) == 1){
+			cout << node->right->key << node->key << endl;
 			this->rotateRight(aux);
+			cout << node->right->key << node->key << endl;
 		}
 		this->rotateLeft(node);
 	}
@@ -252,10 +312,11 @@ void Tree::rotateLeft(TreeNode* &node) {
 
 	aux->left = node;
 	aux->parent = node->parent;
+	node->parent = aux;
 
 	// Atribiui o pai do nó da direita ao nó da esquerda (pai nó da esquerda unsigned)
 	if (aux->right != NULL)
-		(aux->left)->parent = (aux->right)->parent;
+		(aux->left)->parent = aux;
 
 	// Caso o nó balanceado seja a raiz, realzia a devida atualização
 	if (aux->parent == NULL)
@@ -287,14 +348,20 @@ void Tree::rotateRight(TreeNode* &node) {
 
 	aux->right = node;
 	aux->parent = node->parent;
+	node->parent = aux; 
 
 	// Atribiui o pai do nó da esquerda ao nó da direita (pai nó da direita unsigned)
 	if (aux->left != NULL)
-		(aux->right)->parent = (aux->left)->parent;
-
+		(aux->right)->parent = aux;
+	
 	if (aux->parent == NULL)
 		this->root = aux;
+
 	node = aux;
+}
+
+int Tree::getNElements(){
+	return this->nElements;
 }
 
 // Imprime a árvore
@@ -308,13 +375,18 @@ void Tree::show(TreeNode *node, int b) {
 	this->show(node->left, b + 1);
 }
 
-void Tree::printNode(int c, int b, int sep) {
+void Tree::printNode(int key, int b, int sep) {
 	int i;
-	for (i = 0; i < b; i++) printf(" - ");
-		if (sep == 0)
-			printf("%d\n", c);
+
+	for (i = 0; i < b; i++) printf(" . ");
+	if (sep == 0){
+		if ((key < 10) && (key >= 0))
+			printf(" %d\n",key);
 		else
-			printf("*\n", c);
+			printf("%d\n", key);
+	}
+	else
+			printf(" *\n");
 }
 
 

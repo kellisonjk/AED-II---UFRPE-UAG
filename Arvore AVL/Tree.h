@@ -17,7 +17,8 @@ class Tree {
 		Tree(TreeNode*);
 		void addNode(int);
 		void addNode(TreeNode*&, TreeNode*, int);
-		void removeNode(TreeNode*); // Nao implementado ainda
+		void removeNode(int);
+		void removeNode(TreeNode*&);
 		TreeNode* searchNode(int);
 		TreeNode* searchNode(TreeNode*, int);
 		TreeNode* getMaximumNode();
@@ -26,22 +27,23 @@ class Tree {
 		TreeNode* getMinimumNode(TreeNode*);
 		TreeNode* getSuccessor(int);
 		TreeNode* getPredecessor(int);
-		void verifyBalance(TreeNode*, std::string); 
-		void doBalance(TreeNode*);
 		void printInOrder();
-		void printInOrder(TreeNode*);
-		void rotateRight(TreeNode*&); 
-		void rotateLeft(TreeNode*&); 
+		void printInOrder(TreeNode*); 
 		int getBalance();
 		int getBalance(TreeNode*);
 		int getHeight(TreeNode*);
 		TreeNode* getRoot(); 
+		int getNElements();
 		void printNode(int, int, int);
 		void show(TreeNode*, int);
 		virtual ~Tree();
 	private:
+		void verifyBalance(TreeNode*, std::string);
+		void doBalance(TreeNode*);
+		void rotateRight(TreeNode*&);
+		void rotateLeft(TreeNode*&);
 		TreeNode* root;
-		int nElements;
+		int nElements = 0;
 
 
 };
