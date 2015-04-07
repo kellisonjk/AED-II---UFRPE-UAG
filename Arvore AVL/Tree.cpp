@@ -6,10 +6,7 @@
  *      	Classe Tree, uma árvore AVL, com os métodos:
  *			- inserção, procura, mínimo e máximo, exibição da árvore, altura, predecessor, antecessor, 
  *            impressão em ordem crescente, e remoção de um nó (para os 3 casos possíveis)
- *		Status: perto da conclusão
- *		    - Motivo: verificar método de remoção quando o nó possuir 2 filhos (troca de valores + remoção 
- *					  do sucessor  ou trocar ponteiros
- *			- Usar free() ou não é necessário ?
+ *		Status: concluido
  */
 
 #include "Tree.h"
