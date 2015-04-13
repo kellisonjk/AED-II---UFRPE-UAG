@@ -3,13 +3,18 @@
 ### 1. Repo ###
 
 * Repósitorio para o projeto da disciplina "Algoritmo e Estruturas de Dados II" (AED II) do curso de BCC na UFRPE UAG.
-Professor: Rian Gabriel
 
-### 2. Algoritmos Implementados
+* Professor: Rian Gabriel
 
-* Árvore AVL
+### 2. Algoritmos
+
+* Árvore AVL (Concluída)
+* Árvore Rubro-Negra (RedBlack) (Em andamento)
+* Árvore B
+* Heap
+* Hash
 
 ### 3. Owner ###
 
 * Nome: José Kellison de A. Silva
-* Email:  kellisonjk@gmail.com 
+* Email:  kellisonjk@gmail.com
