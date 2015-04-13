@@ -39,13 +39,13 @@ class AVLTree {
 		void printNode(int, int, int);
 		void show(TreeNode*, int);
 		virtual ~AVLTree();
-	private:
+	protected:
 		void verifyBalance(TreeNode*, std::string);
 		void doBalance(TreeNode*);
 		void rotateRight(TreeNode*&);
 		void rotateLeft(TreeNode*&);
 		TreeNode* root;
-		int nElements = 0; // Número de elementos da árvore
+		int nElements; // Número de elementos da árvore
 
 
 };

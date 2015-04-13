@@ -14,14 +14,16 @@ using namespace std;
 // Inicializa um novo nó ligando-o ao nó pai,
 // no caso do nó raiz, o valor para "father" deverá ser nulo
 
+TreeNode::TreeNode() {
+
+}
 TreeNode::TreeNode(int key, TreeNode* parent) {
 	this->key = key;
 	this->parent = parent;
 	this->left = NULL;
 	this->right = NULL;
-	this->color = red;
+	this->color = RED;
 }
-
 
 TreeNode::~TreeNode() {
 

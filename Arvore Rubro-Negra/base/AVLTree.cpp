@@ -6,10 +6,7 @@
  *      	Classe Tree, uma árvore AVL, com os métodos:
  *			- inserção, procura, mínimo e máximo, exibição da árvore, altura, predecessor, antecessor, 
  *            impressão em ordem crescente, e remoção de um nó (para os 3 casos possíveis)
- *		Status: perto da conclusão
- *		    - Motivo: verificar método de remoção quando o nó possuir 2 filhos (troca de valores + remoção 
- *					  do sucessor  ou trocar ponteiros
- *			- Usar free() ou não é necessário ?
+ *		Status: concluido
  */
 
 #include "AVLTree.h"
@@ -24,11 +21,13 @@ using namespace std;
 // Inicializa a árvore
 AVLTree::AVLTree() {
 	this->root = NULL;
+	this->nElements = 0;
 }
 
 // Inicializa a árvore
 AVLTree::AVLTree(TreeNode* root) {
 	this->root = root;
+	this->nElements = 1;
 }
 
 
@@ -251,7 +250,6 @@ int AVLTree::getBalance(TreeNode* node){
 
 // Calcula a altura da árvore (ou sub-árvore)
 int AVLTree::getHeight(TreeNode* node) {
-	int left, right;
 	if (node == NULL) 
 		return -1;
 
@@ -299,9 +297,7 @@ void AVLTree::doBalance(TreeNode* node){
 		aux = node->right;
 		// Realiza a rotação direita - esquerda
 		if (this->getBalance(aux) == 1){
-			cout << node->right->key << node->key << endl;
 			this->rotateRight(aux);
-			cout << node->right->key << node->key << endl;
 		}
 		this->rotateLeft(node);
 	}
@@ -317,17 +313,18 @@ void AVLTree::doBalance(TreeNode* node){
 }
 
 // Realiza a rotação esquerda
+// Realiza a rotação esquerda
 void AVLTree::rotateLeft(TreeNode* &node) {
 	TreeNode* aux;
 	aux = node->right;
 	node->right = aux->left;
-	
+
 	// Aponta para o pai correto 
 	if (aux->left != NULL) {
 		(aux->left)->parent = node;
 	}
 
-	if (node->parent != NULL) 
+	if (node->parent != NULL)
 	{
 		if ((node->parent)->right == node){
 			(node->parent)->right = aux;
@@ -337,13 +334,9 @@ void AVLTree::rotateLeft(TreeNode* &node) {
 		}
 	}
 
-	aux->left = node;
 	aux->parent = node->parent;
 	node->parent = aux;
-
-	// Atribiui o pai do nó da direita ao nó da esquerda (pai nó da esquerda unsigned)
-	if (aux->right != NULL)
-		(aux->left)->parent = aux;
+	aux->left = node;
 
 	// Caso o nó balanceado seja a raiz, realzia a devida atualização
 	if (aux->parent == NULL)
@@ -375,12 +368,8 @@ void AVLTree::rotateRight(TreeNode* &node) {
 
 	aux->right = node;
 	aux->parent = node->parent;
-	node->parent = aux; 
+	node->parent = aux;
 
-	// Atribiui o pai do nó da esquerda ao nó da direita (pai nó da direita unsigned)
-	if (aux->left != NULL)
-		(aux->right)->parent = aux;
-	
 	if (aux->parent == NULL)
 		this->root = aux;
 

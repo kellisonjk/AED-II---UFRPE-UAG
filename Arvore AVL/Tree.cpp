@@ -333,14 +333,10 @@ void Tree::rotateLeft(TreeNode* &node) {
 			(node->parent)->left = aux;
 		}
 	}
-
-	aux->left = node;
+		
 	aux->parent = node->parent;
 	node->parent = aux;
-
-	// Atribiui o pai do nó da direita ao nó da esquerda (pai nó da esquerda unsigned)
-	if (aux->right != NULL)
-		(aux->left)->parent = aux;
+	aux->left = node;
 
 	// Caso o nó balanceado seja a raiz, realzia a devida atualização
 	if (aux->parent == NULL)
@@ -373,11 +369,7 @@ void Tree::rotateRight(TreeNode* &node) {
 	aux->right = node;
 	aux->parent = node->parent;
 	node->parent = aux; 
-
-	// Atribiui o pai do nó da esquerda ao nó da direita (pai nó da direita unsigned)
-	if (aux->left != NULL)
-		(aux->right)->parent = aux;
-	
+		
 	if (aux->parent == NULL)
 		this->root = aux;
 

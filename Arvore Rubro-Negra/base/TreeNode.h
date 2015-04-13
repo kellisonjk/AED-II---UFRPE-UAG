@@ -11,10 +11,14 @@
 #ifndef TREENODE_H_
 #define TREENODE_H_
 
+#define RED 0
+#define BLACK 1
+
 class TreeNode {
 
-	public:
-		TreeNode(int, TreeNode*);
+public:
+	TreeNode();
+	TreeNode(int, TreeNode*);
 		virtual ~TreeNode();
 		int key;
 
@@ -22,8 +26,7 @@ class TreeNode {
 		TreeNode *left;
 		TreeNode *right;
 		TreeNode *parent;
-		enum Color {red, black};
-		Color color;
+		int color = RED;
 
 };
 
