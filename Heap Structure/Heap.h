@@ -1,7 +1,7 @@
 /*
 * RedBlackTree.h
 *
-*  Created on: Apr 7, 2015
+*  Created on: May 3, 2015
 *      Author: Kellison
 */
 
@@ -27,13 +27,20 @@ class Heap
 		Heap(int, int);
 		void heapfy(int);
 		void build();
+		object extract();
+		object getMaximum();
+		object getMinimum();
+		void insert(object);
 		string typeToString();
 		bool isHeapMax();
+		bool isEmpty();
 		bool compare(object, object);
 		void exchange(int, int);
 		void print();
 		void sort();
 		void clear();
+		int getSize();
+		int getMaxSize();
 		virtual ~Heap();
 
 	private:

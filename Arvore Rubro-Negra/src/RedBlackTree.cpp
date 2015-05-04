@@ -5,7 +5,8 @@
 *      - Author: Kellison
 *		- Descrição:
 *			Implementação da árvore rubro-negra com base na classe AVLTree (renomeei para diferenciação) e
-*		TreeNode (ambos usados na implementação da árvore AVL).
+*		TreeNode (ambos usados na implementação da árvore AVL) (alterado após avaliação da classe e métodos
+*		relacionados a mesma).
 *			Ó método removeNode() realiza o mesmo processo feito na árvore AVL, com a diferença que não há
 *		o método verifyBalance() nesta classe, similar a funcionalidade deste, existe o método repairTreeDelete()
 *		- Adicionais:
