@@ -9,11 +9,6 @@
 #include <stdio.h>
 #include "Heap.h" 
 
-/* VERIFICAR ESSA DECLARAÇÃO: Necessária aqui?? 
-Usei para tirar o bug: 
-Error	1	error LNK2019: unresolved external symbol "public: __thiscall Heap<int>::Heap<int>(int,int)"
-(??0?$Heap@H@@QAE@HH@Z) referenced in function _main */
-#include "Heap.cpp" 
 
 using namespace std;
 

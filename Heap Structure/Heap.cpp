@@ -11,6 +11,7 @@
 #include <string>
 #include "Heap.h"
 
+template class Heap<int>;
 using namespace std;
 
 
