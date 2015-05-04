@@ -145,7 +145,6 @@ void AVLTree::removeNode(TreeNode* &node){
 
 		}
 
-		//free(node);
 		this->nElements--;
 		this->verifyBalance(temp, "remove");
 	}
@@ -161,6 +160,7 @@ TreeNode* AVLTree::getMinimumNode(){
 }
 
 TreeNode* AVLTree::getMinimumNode(TreeNode* node){
+
 	while (node->left != NULL)
 		node = node->left;
 

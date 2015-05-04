@@ -1,24 +1,23 @@
 /*
- * RedBlackTree.cpp
- *
- *  Created on: Apr 7, 2015
- *      - Author: Kellison
- *		- Descrição:
- *			Implementação da árvore rubro-negra com base na classe AVLTree (renomeei para diferenciação) e 
- *		TreeNode (ambos usados na implementação da árvore AVL).
- *		- Adicionais:
- *			Para o bit de cor, temos que red == 0 e black = 1
- *
- *		- Observação: 
- *			Problema após as rotações duplas. O ponteiro "node" é setado como nulo, impossibilitando
- *		referenciá-lo de nenhum modo.
- */
+* RedBlackTree.cpp
+*
+*  Created on: Apr 7, 2015
+*      - Author: Kellison
+*		- Descrição:
+*			Implementação da árvore rubro-negra com base na classe AVLTree (renomeei para diferenciação) e
+*		TreeNode (ambos usados na implementação da árvore AVL).
+*			Ó método removeNode() realiza o mesmo processo feito na árvore AVL, com a diferença que não há
+*		o método verifyBalance() nesta classe, similar a funcionalidade deste, existe o método repairTreeDelete()
+*		- Adicionais:
+*			Para o bit de cor, temos que red = 0 e black = 1
+*
+*/
 
 #include <stdio.h>
+#include <iostream>
 #include "RedBlackTree.h"
 
 using namespace std;
-
 
 // Inicializa a árvore
 RedBlackTree::RedBlackTree() {
@@ -30,141 +29,220 @@ RedBlackTree::RedBlackTree(TreeNode* root) {
 	this->root = root;
 }
 
-void RedBlackTree::addNode(int key){
+void RedBlackTree::addNode(int key) {
 	TreeNode* parent;
 	parent = NULL;
 	this->addNode(this->root, parent, key);
 }
 
-void RedBlackTree::addNode(TreeNode* &node, TreeNode* parent, int key){
-	if (node == NULL){
+void RedBlackTree::addNode(TreeNode* &node, TreeNode* parent, int key) {
+	if (node == NULL) {
 		node = new TreeNode(key, parent);
 
 		cout << "Added ... " << node->key << endl;
 
 		// Repara os nós da árvore, de acordo com as cores
-		this->repairNodes(node);
+		this->repairTree(node);
 
-		this->nElements++;		
+		this->nElements++;
 	}
-	else{
-		if (key < node->key){
+	else {
+		if (key < node->key) {
 			addNode(node->left, node, key);
 		}
-		else if (key >= node->key){
+		else if (key >= node->key) {
 			addNode(node->right, node, key);
 		}
 	}
 }
 
-void RedBlackTree::repairNodes(TreeNode* node){
-	TreeNode* grandpa = this->getGrandParent(node);
+// Executa a remoção do nó (retornado por uma busca) a partir do valor da chave
+void RedBlackTree::removeNode(int key) {
+	TreeNode* node = this->searchNode(key);
+	int anterior = node->getColor();
+	this->removeNode(node);
+
+	this->repairTreeDelete(node, anterior);
+}
+
+void RedBlackTree::removeNode(TreeNode* &node) {
+	TreeNode* aux;
+	int anterior = node->getColor();
+
+	if (node != NULL) {
+		bool leftChildExists = (node->left != NULL);
+		bool rightChildExists = (node->right != NULL);
+
+		// Caos náo possua nenhuma filho, seta os ponteiros filhos do pai como null
+		if (!(node->hasChildren())) {
+			// Se não for a raiz
+			if (node->parent != NULL) {
+				if (node->key >= node->parent->key)
+					(node->parent)->right = NULL;
+				else
+					(node->parent)->left = NULL;
+			}
+			else {
+				this->root = NULL;
+			}
+
+		}
+		// Se possuir apenas um único filho
+		else if (leftChildExists != rightChildExists) {
+
+			if (leftChildExists && !rightChildExists)
+				aux = node->left;
+			else if (!leftChildExists && rightChildExists)
+				aux = node->right;
+
+			// Caso nao seja raiz, realiza a devida atribuição pai - filho
+			if (node->parent != NULL) {
+				aux->parent = node->parent;
+				if (node->isRightChild())
+					(node->parent)->right = aux;
+				else
+					(node->parent)->left = aux;
+
+				node = aux;
+				/*
+				delete aux; */
+			}
+			// Se for raiz, o filho único passa a ser a nova raiz
+			else {
+				aux->parent = NULL;
+				this->root = aux;
+			}
+		}
+		// Para o caso em que o nó possui os dois filhos 
+		else {
+			// Captura o sucessor do nó a ser retirado para sua subsituição 
+			TreeNode* sucessor = this->getSuccessor(node);
+
+			// Atribui o valor do nó sucessor para o nó a ser retirado, e
+			// remove o nó sucessor
+			int key = sucessor->key;
+			int color = sucessor->getColor();
+			this->removeNode(sucessor);
+			node->key = key;
+			node->color = color;
+		}
+
+		this->nElements--;
+	}
+	else {
+		cout << "Nada encontrado" << endl;
+	}
+}
+
+void RedBlackTree::repairTree(TreeNode* node) {
+	TreeNode* grandpa = node->getGrandParent();
 	TreeNode* aux = node, *parent = node->parent;
 
 	// Caso 1, o nó é preto
-	if (this->getColorNode(parent) == BLACK){
+	if (parent->getColor() == BLACK) {
 		if (parent == NULL)
 			node->color = BLACK;
 		return;
 	}
 	// Caso 2, o nó é vermelho
-	else{
-		TreeNode* uncle = this->getUncle(node);
+	else {
+		TreeNode* uncle = node->getUncle();
 
 		// Caso 2.1: O nó tio é vermelho. As cores dos nós (pai, avô e tio) são mudades
 		// e o método é chamado recursivamente
-		if (this->getColorNode(uncle) == RED){
+		if (uncle->getColor() == RED) {
 			node->parent->color = BLACK;
-			this->changeUncleColor(node, BLACK);
-			this->changeGrandpaColor(node, RED);
-			this->repairNodes(grandpa);
+			node->changeUncleColor(BLACK);
+			node->changeGrandpaColor(RED);
+			this->repairTree(grandpa);
 		}
 		// Caso 2.2: o nó tio é preto
-		else{
+		else {
 			// Caso 2.2.1
-			if ((node == parent->left) && (parent == grandpa->left)){
+			if ((node == parent->left) && (parent == grandpa->left)) {
 				node->parent->color = BLACK;
-				this->changeGrandpaColor(node, RED);
+				node->changeGrandpaColor(RED);
 				this->rotateRight(grandpa);
 			}
 			// Caso 2.2.2
-			else if ((node == parent->left) && (parent == grandpa->right)){
+			else if ((node == parent->left) && (parent == grandpa->right)) {
 				node->color = BLACK;
-				this->changeGrandpaColor(node, RED);
+				node->changeGrandpaColor(RED);
 				this->rotateRight(parent);
 				this->rotateLeft(grandpa);
 			}
 			// Caso 2.2.3
-			else if ((node == parent->right) && (parent == grandpa->right)){
+			else if ((node == parent->right) && (parent == grandpa->right)) {
 				node->parent->color = BLACK;
-				this->changeGrandpaColor(node, RED);
+				node->changeGrandpaColor(RED);
 				this->rotateLeft(grandpa);
 			}
 			// Caso 2.2.4
-			else if ((node == parent->right) && (parent == grandpa->left)){
+			else if ((node == parent->right) && (parent == grandpa->left)) {
 				node->color = BLACK;
-				this->changeGrandpaColor(node, RED);
+				node->changeGrandpaColor(RED);
 				this->rotateLeft(parent);
 				this->rotateRight(grandpa);
 			}
 		}
 	}
-	
+
 }
 
-// Retorna o "avô" do nó passado por parâmetro
-TreeNode* RedBlackTree::getGrandParent(TreeNode* node){
-	if ((node != NULL) && (node->parent != NULL) )
-		return (node->parent)->parent;
+void RedBlackTree::repairTreeDelete(TreeNode* node, int corRemovido) {
+	if (node != NULL) {
+		// Situação 1
+		if ((corRemovido == RED) && (node->getColor() == RED)) {
+			return;
+		}
+		else {
+			if (corRemovido == BLACK) {
+				// Situação 2
+				if (node->getColor() == RED)
+					node->color = BLACK;
+				// Situação 3
+				else if (node->getColor() == BLACK) {
+					// Caso 1
+					if ((node->getSibling()->getColor() == RED)
+						&& (node->parent->getColor() == BLACK)) {
+						node->getSibling()->color = BLACK;
+						node->parent->color = RED;
+						if (node->isLeftChild())
+							this->rotateLeft(node->parent);
+						else
+							this->rotateRight(node->parent);
+					}
+					if (node->getSibling()->getColor() == BLACK) {
+						TreeNode* sibling = node->getSibling();
+						// Caso 2a
+						if ((node->getSibling()->left->getColor() == BLACK)
+							&& (node->getSibling()->right->getColor() == BLACK)) {
 
-	return NULL;
-}
+							node->getSibling()->color = RED;
 
-// Retorna o "tio" do nó passado por parâmetro
-TreeNode* RedBlackTree::getUncle(TreeNode* node){
-	TreeNode* grandpa = this->getGrandParent(node);
-	
-	// Caso exista um avô,
-	if (grandpa != NULL){
-		if (grandpa->left == node->parent)
-			return grandpa->right;
-		else
-			return grandpa->left;
+							//Caso 2b
+							if (node->parent->getColor() == RED)
+								node->parent->color = BLACK;
+						}
+						if ((node->getSibling()->left->getColor() == RED)
+							&& (node->getSibling()->right->getColor() == BLACK)) {
+
+							node->getSibling()->color = RED;
+							node->getSibling()->left->color = BLACK;
+							this->rotateLeft(sibling);
+						}
+						else {
+							node->getSibling()->color =	node->parent->getColor();
+							node->parent->color = BLACK;
+							node->getSibling()->right->color = BLACK;
+							this->rotateLeft(node->parent);
+						}
+
+					}
+				}
+			}
+		}
 	}
-
-	// Se não existe um avô, então também não existe um tio par ao nó
-	return NULL;
-}
-
-// Retorna a cor do nó. Caso seja um nó nulo, retorna BLACK (1), caso contrário
-// retorna a cor salva no nó passado como parâmetro
-int RedBlackTree::getColorNode(TreeNode* node){
-	if (node == NULL){
-		return BLACK;
-	}
-	else{
-		return node->color;
-	}
-}
-
-// Muda a cor do nó "tio"
-void RedBlackTree::changeUncleColor(TreeNode* &node, int color){
-	TreeNode* grandpa = this->getGrandParent(node);
-
-	// Caso exista um avô e um tio
-	if ( (grandpa != NULL) && (this->getUncle(node)!=NULL)){
-		if (grandpa->left == node->parent)
-			((node->parent)->parent)->right->color = color;
-		else
-			((node->parent)->parent)->left->color = color;
-	}
-
-}
-
-// Muda a cor do nó "avô", caso exista
-void RedBlackTree::changeGrandpaColor(TreeNode*& node, int color){
-	if (this->getGrandParent(node) != NULL)
-		((node->parent)->parent)->color = color;
 }
 
 // Imprime a árvore
@@ -181,10 +259,11 @@ void RedBlackTree::show(TreeNode *node, int b) {
 // Imprime o nó junto com a sua cor B(black) ou R (red)
 void RedBlackTree::printNode(TreeNode* node, int b, int sep) {
 	int i;
-	char color = this->getColorNode(node) == BLACK ? 'B' : 'R';
+	char color = node->getColor() == BLACK ? 'B' : 'R';
 
-	for (i = 0; i < b; i++) printf(" . . ");
-	if (sep == 0){
+	for (i = 0; i < b; i++)
+		printf(" . . ");
+	if (sep == 0) {
 		if ((node->key < 10) && (node->key >= 0))
 			printf(" %d (%c)\n", node->key, color);
 		else
@@ -194,11 +273,6 @@ void RedBlackTree::printNode(TreeNode* node, int b, int sep) {
 		printf(" * (%c)\n", color);
 }
 
-string RedBlackTree::colorToString(TreeNode* node){
-	return this->getColorNode(node) == BLACK ? "Black" : "Red";
-}
-
 RedBlackTree::~RedBlackTree() {
-	// TODO Auto-generated destructor stub
+	cout << "Árvore removida." << endl;
 }
-

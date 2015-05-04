@@ -2,7 +2,7 @@
  * Main.cpp
  *
  *      Author: Kellison
- *		Implementação da classe Tree (árvore AVL)
+ *		Implementação da classe RedBlackTree
  */
 
 #include <iostream>
@@ -27,14 +27,16 @@ int main() {
 	arvore.addNode(15);
 	arvore.addNode(8);
 	arvore.addNode(9);
+	arvore.addNode(16);
+	arvore.addNode(68);
 
 	cout << "\nRoot:" << arvore.getRoot()->key << endl;
 
 	cout << endl << "Arvore montada: " << endl;
 	arvore.show(arvore.getRoot(), 0);
 	cout << endl << "No. de elementos: " << arvore.getNElements() << endl << endl;
-
-	/*
+	
+	
 	char a = '1';
 
 	// Repete o processo de remoção enquanto assim desejar o usuário
@@ -47,18 +49,18 @@ int main() {
 		cout << endl;
 		arvore.removeNode(key);
 
-		cout << endl << "Arvore montada apos remocao do no:  (balanceamento = " << arvore.getBalance() << ")" << endl;
+		cout << endl << "Arvore montada apos remocao do no: " << key << endl;
 		arvore.show(arvore.getRoot(), 0);
 		cout << endl << "No. de elementos: " << arvore.getNElements() << endl << endl;
 
-		cout << endl << " Digite '1' para uma nova remocao, ou qualquer outro caractere para encerrar:  ";
+		cout << endl << " Digite '1' - nova remocao, ou qualquer outro caractere para encerrar: ";
 		cin >> a;
-	}*/
+	}
 
 	cout << endl;
 	system("PAUSE");
 
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 

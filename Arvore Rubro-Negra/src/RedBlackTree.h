@@ -20,18 +20,15 @@ class RedBlackTree: public AVLTree {
 		RedBlackTree(TreeNode*);
 		void addNode(TreeNode*&, TreeNode*, int);
 		void addNode(int);
+		void removeNode(int key);
 		void removeNode(TreeNode*&);
-		void repairNodes(TreeNode*);
-		int getColorNode(TreeNode*);
-		int blackHeight();
-		string colorToString(TreeNode*);
+		int blackHeight(); // Nao implementado
 		void show(TreeNode*, int);
 		void printNode(TreeNode*, int, int);
-		TreeNode* getUncle(TreeNode*);
-		TreeNode* getGrandParent(TreeNode*);
-		void changeUncleColor(TreeNode*&, int);
-		void changeGrandpaColor(TreeNode*&, int);
 		virtual ~RedBlackTree();
+	private:
+		void repairTree(TreeNode*);
+		void repairTreeDelete(TreeNode*, int); // Nao implementado
 };
 
 #endif /* REDBLACKTREE_H_ */

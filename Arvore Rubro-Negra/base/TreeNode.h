@@ -13,20 +13,34 @@
 
 #define RED 0
 #define BLACK 1
+#define colorToString(color) ( (color == 0) ? "RED" : "BLACK")
 
 class TreeNode {
 
 public:
 	TreeNode();
 	TreeNode(int, TreeNode*);
-		virtual ~TreeNode();
-		int key;
+	// Usados para verificar se ó nó é filho esquerdo ou direito
+	bool isLeftChild();
+	bool isRightChild();
+	bool hasChildren();
 
-		// Ponteiros para os  nós filhos da esquerda e direita e para o nó pai
-		TreeNode *left;
-		TreeNode *right;
-		TreeNode *parent;
-		int color = RED;
+	TreeNode* getUncle();
+	TreeNode* getGrandParent();
+	TreeNode* getSibling();
+	void changeUncleColor(int);
+	void changeGrandpaColor(int);
+	int getColor();
+
+	virtual ~TreeNode();
+	
+	int key;
+	int color = RED;
+
+	// Ponteiros para os  nós filhos da esquerda e direita e para o nó pai
+	TreeNode* left;
+	TreeNode* right;
+	TreeNode* parent;
 
 };
 
