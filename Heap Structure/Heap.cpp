@@ -109,7 +109,7 @@ void Heap<object>::insert(object newData){
 template <class object>
 void Heap<object>::exchange(int a, int b){
 	object aux;
-
+	
 	aux = this->data[a];
 	this->data[a] = this->data[b];
 	this->data[b] = aux;
