@@ -15,6 +15,12 @@
 #define RIGHT(pos) ((2*pos)+2);
 
 #include <string>
+#include <vector>
+#include <iostream>
+#include <stdlib.h>
+#include <stdexcept>
+#include <math.h> 
+#include <limits> 
 
 using namespace std;
 
@@ -23,28 +29,37 @@ class Heap
 {
 	public:
 		Heap();
-		Heap(object[], int, int, int);
+		Heap(vector<object>, int, int, int);
 		Heap(int, int);
 		void heapfy(int);
 		void build();
 		object extract();
-		object getMaximum();
-		object getMinimum();
+		object getRoot();
 		void insert(object);
+		void changeKey(int, object, string);
+		bool remove(object);
+		int search(object);
 		string typeToString();
 		bool isHeapMax();
 		bool isEmpty();
-		bool compare(object, object);
-		void exchange(int, int);
-		void print();
-		void sort();
+		void printArray(int);
+		void printTree(int);
+		vector<object> getData();
+		object getData(int);
+		static void sort(vector<object>&, int);
+		vector<object> sort();
 		void clear();
 		int getSize();
 		int getMaxSize();
+		int getHeight();
 		virtual ~Heap();
 
 	private:
-		object* data;
+		bool compare(object, object);
+		void exchange(int, int);
+		void inline printSpaces(int);
+
+		vector<object> data;
 		int maxSize; // Número máximo de elementos permitidos
 		int size; // Número total de elementos preenchidos
 		int type; // Tipo do Heap: MAX ou MIN
