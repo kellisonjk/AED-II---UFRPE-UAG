@@ -9,9 +9,9 @@
 ### 2. Algoritmos
 
 * Árvore AVL (Concluída)
-* Árvore Rubro-Negra (RedBlack) (Em andamento)
+* Árvore Rubro-Negra (RedBlack) (Em pausa - algoritmo de remoção)
 * Árvore B
-* Heap
+* Heap (Em andamento)
 * Hash
 
 ### 3. Owner ###
