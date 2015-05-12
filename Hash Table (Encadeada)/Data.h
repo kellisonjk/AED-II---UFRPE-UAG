@@ -17,6 +17,7 @@ using namespace std;
 
 class Data{
 	public:
+		Data();
 		Data(string, int);
 		string getKey();
 		void setKey(string);

@@ -13,6 +13,7 @@
 #include <string>
 #include <vector>
 #include <list>
+#include <algorithm>
 #include "Data.h" 
 
 using namespace std;
@@ -24,6 +25,7 @@ class HashTable
 		HashTable(int);
 		void insert(TData);
 		TData search(TKey);
+		TData search(TData);
 		void remove(TData);
 		void printHash();
 		virtual ~HashTable();

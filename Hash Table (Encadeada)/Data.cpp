@@ -10,6 +10,8 @@
 
 #include "Data.h"
 
+Data::Data(){}
+
 Data::Data(string name, int age){
 	this->name = name;
 	this->age = age;
@@ -28,6 +30,7 @@ void Data::setKey(string key){
 int Data::getHash(int size){
 	int str_int = 0;
 
+	// Realiza a soma dos caracteres (int) da chave
 	for (int i = 0; i < this->getKey().length(); i++){
 		str_int += (int)this->getKey()[i];
 	}
@@ -35,15 +38,18 @@ int Data::getHash(int size){
 	return (size *   fmod((str_int * CONST_A), 1));
 }
 
+// Overload da do operador == 
 bool Data::operator== (Data data){
-	if ((data.name == this->name) && (data.age == this->age))
-		return true;
-
-	return false;
+	return this->getKey() == data.getKey();
 }
 
+// Overload do operado <<, usado para imprimir os valores da classe
+// Tratar para quando o obj estiver vazio
 ostream& operator<< (ostream& out, const Data& obj) {
-	out << "Nome.: " << "." << endl << "      Idade: " << obj.age << endl;
+	if (obj.name.length() != 0)
+		out << "Nome.: " << "." << " Idade: " << obj.age << endl;
+	else
+		out << " <VAZIA> " << endl;
 	
 	return out;
 }
