@@ -21,11 +21,13 @@ using namespace std;
 // Inicializa a árvore
 Tree::Tree() {
 	this->root = NULL;
+	this->nElements = 0;
 }
 
 // Inicializa a árvore
 Tree::Tree(TreeNode* root) {
 	this->root = root;
+	this->nElements = 0;
 }
 
 
@@ -95,13 +97,16 @@ void Tree::removeNode(TreeNode* &node){
 			if (node->parent != NULL){
 				if (node->key >= node->parent->key){
 					(node->parent)->right = NULL;
+					delete (node->parent)->right;
 				}
 				else{
 					(node->parent)->left = NULL;
+					delete (node->parent)->left;
 				}
 			}
 			else{
 				this->root = NULL;
+				delete this->root;
 			}
 		}
 		// Se possuir apenas um único filho
@@ -296,9 +301,7 @@ void Tree::doBalance(TreeNode* node){
 		aux = node->right;
 		// Realiza a rotação direita - esquerda
 		if (this->getBalance(aux) == 1){
-			cout << node->right->key << node->key << endl;
 			this->rotateRight(aux);
-			cout << node->right->key << node->key << endl;
 		}
 		this->rotateLeft(node);
 	}

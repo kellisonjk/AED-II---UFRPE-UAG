@@ -1,3 +1,5 @@
+all: ArvoreRedBlack.exe
+
 ArvoreRedBlack.exe: AVLTree.o TreeNode.o RedBlackTree.o Main.o
 	g++ Main.o RedBlackTree.o AVLTree.o TreeNode.o -o ArvoreRedBlack.exe
 
@@ -12,3 +14,6 @@ AVLTree.o: ./base/AVLTree.h ./base/AVLTree.cpp
 
 TreeNode.o: ./base/TreeNode.h ./base/TreeNode.cpp
 	g++ -c ./base/TreeNode.cpp
+
+clean:
+	rm ArvoreRedBlack.exe *.o

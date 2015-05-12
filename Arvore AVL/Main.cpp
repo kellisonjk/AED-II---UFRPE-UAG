@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <stdio.h>
 #include "Tree.h"
 using namespace std;
 
@@ -56,12 +57,12 @@ int main() {
 		arvore.show(arvore.getRoot(), 0);
 		cout << endl << "No. de elementos: " << arvore.getNElements() << endl << endl;
 
-		cout << endl << " Digite '1' para uma nova remocao, ou qualquer outro caractere para encerrar:  ";
+		cout << endl << " Digite '1' para uma nova remocao:  ";
 		cin >> a;
 	}
 
-	cout << endl;
-	system("PAUSE");
+	cout << "\n\n (Pressione <ENTER> para encerrar...)" << endl;
+	getchar();
 
     return 0;
 }

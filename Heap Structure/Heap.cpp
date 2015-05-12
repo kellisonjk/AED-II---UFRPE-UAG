@@ -1,5 +1,5 @@
 ﻿/*
-* Heap.cpp   WITH VECTOR
+* Heap.cpp 
 *
 *  Created on: May 3, 2015
 *      - Author: Kellison
@@ -80,42 +80,37 @@ object Heap<object>::extract(){
 		if (this->isEmpty())
 			throw underflow_error("Impossivel extrair elementos. Status heap: vazia.");
 
-
 		object aux;
 
 		aux = this->data.at(0);
-		this->data.at(0) = this->data.at(--this->size);
+		this->data[0] = this->data.at(--this->size);
 		this->heapfy(0);
-
 		return aux;
 	}
 	catch (const underflow_error& oor)
 	{
-		cerr << endl << "  Underflow errorr: " << oor.what() << '\n';
+		cerr << endl << "  Underflow error: " << oor.what() << '\n';
 	}
-
-	
-
 }
 
 // Insere um novo elemento na estrutura
 template <class object>
 void Heap<object>::insert(object newData){
 	try{
+		if ((this->size) == (this->maxSize))
+			throw  out_of_range("Impossivel adicionar elementos. Status heap: cheia.");
+
 		this->size++;
 		this->data.push_back(numeric_limits<int>::min());
-
 		this->changeKey(this->size - 1, newData, "");
-
 	}
 	catch (const out_of_range& oor) {
-		this->size--;
-
-		cerr << endl << endl << "   Fora da capacidade do array: " << oor.what() << endl << endl;
+		cerr << endl << endl << "   Limite extrapolado: " << oor.what() << endl << endl;
 	}
 
 }
 
+// Altera a prioridade do elemento (aumenta ou diminui de acordo com o tipo da heap)
 template <class object>
 void Heap<object>::changeKey(int i, object data, string source){
 	if (this->data.at(i) > data){
@@ -129,10 +124,13 @@ void Heap<object>::changeKey(int i, object data, string source){
 		
 		while (i > 0){
 			if (source == "remove"){
+				// Realiza o oposto do que seria feito em caso de "não remoção"
 				if (!this->compare(this->data.at(parent), this->data.at(i)))
 					break;
 			}
+			// Caso não seja a partir do método de remoção
 			else{
+				// "parent > i" = MAX HEAP, ou "parent < i" = MIN HEAP
 				if ((this->compare(this->data.at(parent), this->data.at(i))))
 					break;
 			}
@@ -163,6 +161,13 @@ bool Heap<object>::remove(object data){
 template <class object>
 int Heap<object>::search(object data){
 	if (!(this->isEmpty())){
+
+		// Verifica se o valor a ser pesquisado é maior (max heap) ou 
+		// menor (min heap) que a raiz, caso seja retorna -1;
+		if (((this->type == MAX_HEAP) && (data > this->getRoot()))
+			|| ((this->type == MIN_HEAP) && (data < this->getRoot())))
+			return -1;
+
 		for (int i = 0; i < this->size; i++)
 		{
 			if (this->data.at(i) == data) return i;
@@ -247,9 +252,9 @@ void Heap<object>::printTree(int extraSpace){
 		this->printSpaces(extraSpace + 2);
 
 		for (int a = 1; a <= pow(2, i); a++, aux++){
-			int max = space + 2;
 			if ((aux >= this->size))
 				break;
+
 			cout << this->data.at(aux) << " ";
 
 			if (this->data.at(aux) < 10)
@@ -271,6 +276,8 @@ int Heap<object>::getHeight(){
 	else{
 		int h = -1, i = 0, left = 0;
 
+		// Caminha até a folha mais a esquerda do heap, e contabiliza o número de 
+		// elementos até lá.
 		while (left < this->size){
 			left = LEFT(left);
 			h++;
@@ -280,34 +287,37 @@ int Heap<object>::getHeight(){
 	}
 }
 
-// Ordena um vetor através do método de ordenação Heapsort
+// Ordena um vetor através do método (static) de ordenação Heapsort
 template <class object>
 void Heap<object>::sort(vector<object>& vector, int type){
 	Heap<object> heap(vector, type, vector.size(), vector.size());
-	heap.sort();
-	vector = heap.data;
+	vector = heap.sort();
 }
 
 // Ordena a estrutura heap
 template <class object>
 vector<object> Heap<object>::sort(){
+	vector<object> aux;
 	this->build();
 	for (int i = this->size - 1; i >= 1; i--){
 		this->exchange(0, i);
+		aux.push_back(this->data.at(i));
 		this->size--;
 		this->heapfy(0);
 	}
 
-	return this->data;
+	
+	return aux;
 }
 
+// Imprime espaços no console
 template <class object>
 void inline Heap<object>::printSpaces(int n){
 	for (int a = 0; a < n; a++)
 		cout << " ";
 }
 
-// Erro na linha "delete [] data"
+
 template <class object>
 void Heap<object>::clear(){
 	this->size = 0;

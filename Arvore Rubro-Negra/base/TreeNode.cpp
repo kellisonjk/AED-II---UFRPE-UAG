@@ -8,7 +8,7 @@
  *
  *			Diferentemente da classe node usada para a árvore AVL, esta clase possui
  *			alguns métodos para manipulação do nó (getUncle, changeGrandpaColor, etc)
- */
+ */  
 
 #include "TreeNode.h"
 #include <iostream>

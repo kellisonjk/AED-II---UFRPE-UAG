@@ -45,7 +45,7 @@ class Tree {
 		void rotateRight(TreeNode*&);
 		void rotateLeft(TreeNode*&);
 		TreeNode* root;
-		int nElements = 0; // Número de elementos da árvore
+		int nElements; // Número de elementos da árvore
 
 
 };

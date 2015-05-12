@@ -9,9 +9,7 @@
 #include <stdio.h>
 #include "Heap.h" 
 
-
 using namespace std;
-
 
 int menu_incial(){
 	int op = -1;
@@ -60,8 +58,7 @@ int main() {
 	if (op_heap != 2){
 		int elemento, op;
 		bool result;
-		Heap<int> h;
-		h.extract();
+
 		Heap<int> heap(vetor, op_heap, 20, 15);
 
 		string tipo = (op_heap == 0) ? "menor" : "maior";
@@ -132,7 +129,7 @@ int main() {
 			if (i != vetor.size() - 1) cout << " -";
 		}
 
-		cout << endl << "\n   Heap (construido nessa execução) ordenado com Heapsort:" << endl;
+		cout << endl << "\n   Heap (construido nessa execucao) ordenado com Heapsort:" << endl;
 		vector<int> novo_vetor = heap.sort();
 		cout << "  ";
 		for (int i = 0; i < novo_vetor.size(); i++)
