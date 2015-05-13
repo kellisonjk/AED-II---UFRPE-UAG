@@ -44,13 +44,16 @@ bool Data::operator== (Data data){
 }
 
 // Overload do operado <<, usado para imprimir os valores da classe
-// Tratar para quando o obj estiver vazio
-ostream& operator<< (ostream& out, const Data& obj) {
-	if (obj.name.length() != 0)
-		out << "Nome.: " << "." << " Idade: " << obj.age << endl;
+// Imprime <VAZIA> quando o objeto está vazio 
+ostream& operator<< (ostream& out, Data& obj) {
+	string name = obj.getName();
+	const char * aux = name.c_str();
+
+	if (obj.getKey().length() != 0)
+		out << "Nome.: " << aux << ".  Idade: " << obj.getAge() << endl;
 	else
 		out << " <VAZIA> " << endl;
-	
+
 	return out;
 }
 

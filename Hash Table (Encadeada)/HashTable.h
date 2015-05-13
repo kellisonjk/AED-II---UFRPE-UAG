@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
+#include <stdexcept>
 #include <list>
 #include <algorithm>
 #include "Data.h" 
