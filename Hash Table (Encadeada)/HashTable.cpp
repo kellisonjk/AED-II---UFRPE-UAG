@@ -40,29 +40,19 @@ TData HashTable<TData, TKey>::search(TKey key){
 	return this->search(aux);
 }
 
-// Obs.: Tratar para quando nenhum registro seja encontrado
 template <class TData, class TKey>
 TData HashTable<TData, TKey>::search(TData data){
 	
 	int index = data.getHash(this->table.size());
 	
-	typename list<TData>::iterator it;
-	it = find(this->table[index].begin(), this->table[index].end(), data);
+	typename list<TData>::iterator itr1;
+	itr1 = find(this->table[index].begin(), this->table[index].end(), data);
 
-	if (it == this->table[index].end())
-		throw out_of_range("Elemento nao existente na HashTable.");
-
-	TData& aux = *it;
-
+	TData& aux= *itr1;
+	
 	return aux;
 }
 
-// Remove um elemento da lista contida em uma posição X da Hash Table
-template <class TData, class TKey>
-void HashTable<TData, TKey>::remove(TData data){
-	int index = data.getHash(this->table.size());
-	this->table[index].remove(data);
-}
 
 
 // Imprime a hash table
@@ -82,8 +72,6 @@ void HashTable<TData, TKey>::printHash(){
 		}
 
 	}
-
-	cout << endl;
 }
 
 

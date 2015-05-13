@@ -7,12 +7,11 @@
 
 #include "HashTable.h" 
 
-#define SIZE 10
 using namespace std;
 
 int main() {
 	
-	HashTable<Data, string> hashtbl(SIZE);
+	HashTable<Data, string> hashtbl(10);
 	char op;
 	string nome;
 	int idade;
@@ -53,27 +52,10 @@ int main() {
 	if (op == '1'){
 		cout << "  Digite o valor (nome) para pesquisa: ";
 		getline(cin, nome);
-		
-		try{
-			Data result = hashtbl.search(nome);
-			cout << endl << "  Resultado da pesquisa: " << endl;
-			cout <<endl << "   #" << result.getHash(SIZE) << " Hash: " << endl << "    " << result << endl;
 
-			cout << "  Deseja remover esse registro da Hash Table? 1 - SIM: ";
-			cin >> op;
-			getchar();
-			if (op == '1'){
-				hashtbl.remove(result);
+		Data result = hashtbl.search(nome);
 
-				cout << "  Hash apos remocao: " << endl;
-
-				hashtbl.printHash();
-			}
-
-		}
-		catch (const out_of_range& oor){
-			cerr << endl << oor.what() << '\n';
-		}
+		cout << endl << "  Resultado da pesquisa: " << endl << "   " << result << endl;
 	}
 
 	
