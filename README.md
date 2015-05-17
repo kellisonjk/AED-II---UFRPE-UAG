@@ -12,9 +12,10 @@
 * Árvore Rubro-Negra (RedBlack) (Concluida) (Remoção -> Algoritmo não necessário para a implementação)
 * Heap (Concluída) (Heaps: MIN e MAX, escolha feita em tempo de execução)
 * Hash
-  - Encadeada (Concluída) (Inserção, busca e remoção)
-  - Endereçamento Aberto (Concluída)(Inserção e busca. Remoção -> Algoritmo não necessário para a implementação)
-
+    1.  Encadeada (Concluída) (Inserção, busca e remoção)
+    2.  Endereçamento Aberto (Concluída)(Inserção e busca. Remoção -> Algoritmo não necessário para a implementação)
+    
+     
 * Árvore B (Não implementado)
 
 
