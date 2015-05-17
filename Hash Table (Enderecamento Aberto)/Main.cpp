@@ -27,7 +27,12 @@ int main() {
 		cout << "  Idade: ";
 		cin >> idade;
 
-		hashtbl.insert(Data(nome, idade));
+		try{
+			hashtbl.insert(Data(nome, idade));
+		}
+		catch (const overflow_error& oor){
+			cerr << endl << oor.what() << '\n';
+		}
 
 		cout << endl << " Exibir HashTable? 1 - SIM: ";
 		cin >> op;
@@ -45,7 +50,6 @@ int main() {
 
 	cout << endl << " Hash Table finalizada: " << endl;
 	hashtbl.printHash();
-
 	cout << " Deseja pesquisar por algum registro? 1 - SIM: ";
 	cin >> op;
 	cin.get();
@@ -55,21 +59,10 @@ int main() {
 		getline(cin, nome);
 
 		try{
-			Data result = hashtbl.search(nome);
+			Data* result = hashtbl.search(nome);
+
 			cout << endl << "  Resultado da pesquisa: " << endl;
-			cout << endl << "   #" << result.getHash(SIZE) << " Hash: " << endl << "    " << result << endl;
-
-			cout << "  Deseja remover esse registro da Hash Table? 1 - SIM: ";
-			cin >> op;
-			cin.get();
-			if (op == '1'){
-				hashtbl.remove(result);
-
-				cout << "  Hash apos remocao: " << endl;
-
-				hashtbl.printHash();
-			}
-
+			cout << endl << "   Hash: " << endl << "    " << *result << endl;	
 		}
 		catch (const out_of_range& oor){
 			cerr << endl << oor.what() << '\n';
@@ -82,7 +75,7 @@ int main() {
 
 
 	cout << "\n\n (Pressione <ENTER> para encerrar...)" << endl;
-	getchar();
+	cin.get();
 
 	return 0;
 }

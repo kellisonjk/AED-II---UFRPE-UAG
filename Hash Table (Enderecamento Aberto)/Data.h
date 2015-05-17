@@ -22,6 +22,7 @@ class Data{
 		string getKey();
 		void setKey(string);
 		int getHash(int);
+		int getHash(int, int);
 		friend ostream& operator<< (ostream&, Data&);
 		bool operator== (Data data);
 		

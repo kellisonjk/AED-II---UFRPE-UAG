@@ -9,12 +9,16 @@
 ### 2. Algoritmos
 
 * Árvore AVL (Concluída)
-* Árvore Rubro-Negra (RedBlack) (Concluida - algoritmo de remoção descartado)
-* Árvore B
-* Heap (Concluída)
-* Hash (Em andamento [Chainning e Open Adressing])
+* Árvore Rubro-Negra (RedBlack) (Concluida) (Remoção -> Algoritmo não necessário para a implementação)
+* Heap (Concluída) (Heaps: MIN e MAX, escolha feita em tempo de execução)
+* Hash
+  - Encadeada (Concluída) (Inserção, busca e remoção)
+  - Endereçamento Aberto (Concluída)(Inserção e busca. Remoção -> Algoritmo não necessário para a implementação)
 
-### 3. Owner ###
+* Árvore B (Não implementado)
+
+
+### 3. Proprietário ###
 
 * Nome: José Kellison de A. Silva
 * Email:  kellisonjk@gmail.com

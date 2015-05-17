@@ -62,7 +62,7 @@ int main() {
 	}
 
 	cout << "\n\n (Pressione <ENTER> para encerrar...)" << endl;
-	getchar();
+	cin.get();
 
     return 0;
 }
