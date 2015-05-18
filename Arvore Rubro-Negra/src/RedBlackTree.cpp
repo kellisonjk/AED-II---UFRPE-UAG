@@ -20,6 +20,7 @@
 
 using namespace std;
 
+
 // Inicializa a árvore
 RedBlackTree::RedBlackTree() {
 	this->root = NULL;
@@ -62,9 +63,9 @@ void RedBlackTree::repairTree(TreeNode* node) {
 	TreeNode* aux = node, *parent = node->parent;
 
 	// Caso 1, o nó é preto
-	if (parent->getColor() == BLACK) {
+	if (parent->getColor() == TreeNode::black) {
 		if (parent == NULL)
-			node->color = BLACK;
+			node->color = TreeNode::black;
 		return;
 	}
 	// Caso 2, o nó é vermelho
@@ -73,37 +74,37 @@ void RedBlackTree::repairTree(TreeNode* node) {
 
 		// Caso 2.1: O nó tio é vermelho. As cores dos nós (pai, avô e tio) são mudades
 		// e o método é chamado recursivamente
-		if (uncle->getColor() == RED) {
-			node->parent->color = BLACK;
-			node->changeUncleColor(BLACK);
-			node->changeGrandpaColor(RED);
+		if (uncle->getColor() == TreeNode::red) {
+			node->parent->color = TreeNode::black;
+			node->changeUncleColor(TreeNode::black);
+			node->changeGrandpaColor(TreeNode::red);
 			this->repairTree(grandpa);
 		}
 		// Caso 2.2: o nó tio é preto
 		else {
 			// Caso 2.2.1
 			if ((node == parent->left) && (parent == grandpa->left)) {
-				node->parent->color = BLACK;
-				node->changeGrandpaColor(RED);
+				node->parent->color = TreeNode::black;
+				node->changeGrandpaColor(TreeNode::red);
 				this->rotateRight(grandpa);
 			}
 			// Caso 2.2.2
 			else if ((node == parent->left) && (parent == grandpa->right)) {
-				node->color = BLACK;
-				node->changeGrandpaColor(RED);
+				node->color = TreeNode::black;
+				node->changeGrandpaColor(TreeNode::red);
 				this->rotateRight(parent);
 				this->rotateLeft(grandpa);
 			}
 			// Caso 2.2.3
 			else if ((node == parent->right) && (parent == grandpa->right)) {
-				node->parent->color = BLACK;
-				node->changeGrandpaColor(RED);
+				node->parent->color = TreeNode::black;
+				node->changeGrandpaColor(TreeNode::red);
 				this->rotateLeft(grandpa);
 			}
 			// Caso 2.2.4
 			else if ((node == parent->right) && (parent == grandpa->left)) {
-				node->color = BLACK;
-				node->changeGrandpaColor(RED);
+				node->color = TreeNode::black;
+				node->changeGrandpaColor(TreeNode::red);
 				this->rotateLeft(parent);
 				this->rotateRight(grandpa);
 			}
@@ -124,10 +125,10 @@ void RedBlackTree::show(TreeNode *node, int b) {
 	this->show(node->left, b + 1);
 }
 
-// Imprime o nó junto com a sua cor B(black) ou R (red)
+// Imprime o nó junto com a sua cor black ou red
 void RedBlackTree::printNode(TreeNode* node, int b, int sep) {
-	int i;
-	char color = node->getColor() == BLACK ? 'B' : 'R';
+	int i; 
+	char color = node->getColor() == TreeNode::black ? 'B' : 'R';
 
 	for (i = 0; i < b; i++)
 		printf(" . . ");

@@ -11,8 +11,6 @@
 #ifndef TREENODE_H_
 #define TREENODE_H_
 
-#define RED 0
-#define BLACK 1
 #define colorToString(color) ( (color == 0) ? "RED" : "BLACK")
 
 class TreeNode {
@@ -35,12 +33,15 @@ public:
 	virtual ~TreeNode();
 	
 	int key;
-	int color = RED;
+	int color;
 
 	// Ponteiros para os  nós filhos da esquerda e direita e para o nó pai
 	TreeNode* left;
 	TreeNode* right;
 	TreeNode* parent;
+
+	const int static red = 1;
+	const int static black = 0;
 
 };
 

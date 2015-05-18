@@ -7,7 +7,7 @@
  *			- inserção, procura, mínimo e máximo, exibição da árvore, altura, predecessor, antecessor, 
  *            impressão em ordem crescente, e remoção de um nó (para os 3 casos possíveis)
  *		Status: concluido
- */
+ */ 
 
 #include "AVLTree.h"
 #include "TreeNode.h"

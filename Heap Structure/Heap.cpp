@@ -291,6 +291,7 @@ int Heap<object>::getHeight(){
 template <class object>
 void Heap<object>::sort(vector<object>& vector, int type){
 	Heap<object> heap(vector, type, vector.size(), vector.size());
+	cout << vector.size() << endl;
 	vector = heap.sort();
 }
 
@@ -299,7 +300,7 @@ template <class object>
 vector<object> Heap<object>::sort(){
 	vector<object> aux;
 	this->build();
-	for (int i = this->size - 1; i >= 1; i--){
+	for (int i = this->size - 1; i >= 0; i--){
 		this->exchange(0, i);
 		aux.push_back(this->data.at(i));
 		this->size--;

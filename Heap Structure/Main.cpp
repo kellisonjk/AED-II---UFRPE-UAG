@@ -2,83 +2,147 @@
 * Main.cpp
 *
 *      Author: Kellison
-*		Implementaзгo da classe Hash Table
+*		Implementaзгo da classe Heap
 */
 
-#include "HashTable.h" 
+#include <iostream>
+#include <stdio.h>
+#include "Heap.h" 
 
-#define SIZE 10
 using namespace std;
 
-int main() {
+int menu_incial(){
+	int op = -1;
 
-	HashTable<Data, string> hashtbl(SIZE);
-	char op;
-	string nome;
-	int idade;
+	while ((op < 0) || (op > 1)){
+		if (op != -1){
+			cout << endl << endl;
+			cout << " Opcao invalida!" << endl;
+		}
+		cout << endl << " Escolha o tipo da estrutra desejada (tbm usada na demonstracao do Heapsort): " << endl;
+		cout << "  0 - Min Heap" << endl;
+		cout << "  1 - Max Heap" << endl;
+		cout << "  2 - Cancelar" << endl;
+		cout << "  Opcao: ";
 
-	cout << endl << " Hash Table (Encadeada) " << endl << endl;
-
-	do{
-		cout << " Novo registro: " << endl;
-		cout << "  Nome.: ";
-		getline(cin, nome);
-
-		cout << "  Idade: ";
-		cin >> idade;
-
-		hashtbl.insert(Data(nome, idade));
-
-		cout << endl << " Exibir HashTable? 1 - SIM: ";
 		cin >> op;
-		getchar();
+		if (op == 2) return 2;
 
-		if (op == '1'){
-			hashtbl.printHash();
+	}
+
+	return op;
+}
+
+int main() {
+	int op_heap;
+	vector<int> vetor, vetor_ordenado;
+
+	// Preenche o vetor com 15 valores aleatórios
+	for (int i = 1; i <= 15; i++){
+		vetor.push_back(rand() % 100);
+	}
+
+	cout << " Array inicial: " << vetor.size() << endl;
+
+	for (int i = 0; i < vetor.size(); i++)
+	{
+		cout << " " << vetor[i];
+		if (i != vetor.size() - 1) cout << " -";
+	}
+
+	cout << endl;
+
+	// Solicita que o usuário escolha um tipo de Heap
+	op_heap = menu_incial();
+
+	if (op_heap != 2){
+		int elemento, op;
+		bool result;
+
+		Heap<int> heap(vetor, op_heap, 20, 15);
+
+		string tipo = (op_heap == 0) ? "menor" : "maior";
+
+		cout << endl << endl << " " << heap.typeToString() << " ========================== " << endl;
+
+		cout << "\n   Apos a 'heapficacao': " << endl;
+
+		heap.printArray(4);
+		cout << endl;
+		heap.printTree(4);
+
+		////////////// Adição de elementos do Heap //////////////
+		cout << "\n   Adicionar um novo elemento? Digite '1' para SIM : ";
+		cin >> op;
+
+		while (op == 1){
+			cout << "      Digite um numero inteiro: ";
+			cin >> elemento;
+
+			heap.insert(elemento);
+
+			cout << "      Apos insercao: " << endl;
+			heap.printArray(8);
+			cout << endl;
+			heap.printTree(8);
+			cout << "\n   Adicionar outro ? Digite '1' para SIM : ";
+			cin >> op;
 		}
 
-		cout << endl << " Adicionar novo registro? 1 - SIM: ";
+
+		////////////// Remoção de elementos do Heap //////////////
+		cout << endl << "\n   Remover um elemento? Digite '1' para SIM : ";
 		cin >> op;
-		getchar();
-	} while (op == '1');
 
+		while (op == 1){
+			cout << "      Digite o elemento a ser removido: ";
+			cin >> elemento;
 
-	cout << endl << " Hash Table finalizada: " << endl;
-	hashtbl.printHash();
+			result = heap.remove(elemento);
 
-	cout << " Deseja pesquisar por algum registro? 1 - SIM: ";
-	cin >> op;
-	getchar();
-
-	if (op == '1'){
-		cout << "  Digite o valor (nome) para pesquisa: ";
-		getline(cin, nome);
-
-		try{
-			Data result = hashtbl.search(nome);
-			cout << endl << "  Resultado da pesquisa: " << endl;
-			cout << endl << "   #" << result.getHash(SIZE) << " Hash: " << endl << "    " << result << endl;
-
-			cout << "  Deseja remover esse registro da Hash Table? 1 - SIM: ";
-			cin >> op;
-			getchar();
-			if (op == '1'){
-				hashtbl.remove(result);
-
-				cout << "  Hash apos remocao: " << endl;
-
-				hashtbl.printHash();
+			if (!result)
+				cout << endl << "      Falha ao tentar remover: " << elemento << endl << endl;
+			else{
+				cout << endl << "      Apos Remocao: " << endl;
+				heap.printArray(8);
+				cout << endl;
+				heap.printTree(8);
 			}
 
+			cout << "\n   Remover outro ? Digite '1' para SIM : ";
+			cin >> op;
 		}
-		catch (const out_of_range& oor){
-			cerr << endl << oor.what() << '\n';
+
+		////////////// Demonstração do Heapsort //////////////
+
+
+		cout << endl << endl << " Demostracao do Heapsort ========================== " << endl;
+
+		Heap<int>::sort(vetor, op_heap);
+		cout << "\n   Array original ordenado com Heapsort:";
+		cout << (op_heap == 1 ? "(MAX HEAP)" : "(MIN HEAP)") << endl;
+
+		cout << "  ";
+		for (int i = 0; i < vetor.size(); i++)
+		{
+			cout << " " << vetor[i];
+			if (i != vetor.size() - 1) cout << " -";
+		}
+
+		cout << endl << "\n   Heap (construido nessa execucao) ordenado com Heapsort:" << endl;
+		vector<int> novo_vetor = heap.sort();
+		cout << "  ";
+		for (int i = 0; i < novo_vetor.size(); i++)
+		{
+			cout << " " << novo_vetor.at(i);
+			if (i != novo_vetor.size() - 1) cout << " -";
 		}
 	}
 
 
-	cout << "\n\n (Pressione <ENTER> para encerrar...)" << endl;
-	getchar();
+	cout << "\n\n\n (Pressione <ENTER> para encerrar...)" << endl;
+	cin.get();
+	cin.get();
 
 	return 0;
 }

@@ -14,18 +14,19 @@
 #include <iostream>
 using namespace std;
 
-// Inicializa um novo nó ligando-o ao nó pai,
+// Inicializa um novo nó ligando-o ao nó pai, 
 // no caso do nó raiz, o valor para "father" deverá ser nulo
 
 TreeNode::TreeNode() {
-
+	color = TreeNode::red;
 }
+
 TreeNode::TreeNode(int key, TreeNode* parent) {
 	this->key = key;
 	this->parent = parent;
 	this->left = NULL;
 	this->right = NULL;
-	this->color = RED;
+	this->color = TreeNode::red;
 }
 
 // Verifica se o nó é o filho esquerdo de seu pai (caso exista)
@@ -105,11 +106,11 @@ void TreeNode::changeGrandpaColor(int color){
 		((this->parent)->parent)->color = color;
 }
 
-// Retorna a cor do nó. Caso seja um nó nulo, retorna BLACK (1), caso contrário
+// Retorna a cor do nó. Caso seja um nó nulo, retorna TreeNode::black (1), caso contrário
 // retorna a cor salva no nó passado como parâmetro
 int TreeNode::getColor(){
 	if (this == NULL){
-		return BLACK;
+		return TreeNode::black;
 	}
 	else{
 		return this->color;
