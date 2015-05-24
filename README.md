@@ -6,7 +6,9 @@
 
 * Professor: Rian Gabriel
 
-### 2. Algoritmos
+### 2. Algoritmos/Estruturas
+
+**Projeto 01 (1ª VA - Concluído)**
 
 * Árvore AVL (Concluída)
 * Árvore Rubro-Negra (RedBlack) (Concluida) (Remoção -> Algoritmo não necessário para a implementação)
@@ -14,10 +16,15 @@
 * Hash
     1.  Encadeada (Concluída) (Inserção, busca e remoção)
     2.  Endereçamento Aberto (Concluída)(Inserção e busca. Remoção -> Algoritmo não necessário para a implementação)
-    
-     
 * Árvore B (Não implementado)
 
+**Projeto 02 (2ª VA)**
+
+* Dijkstra
+* Prim
+* Kruskal
+* Floyd-Warshall
+* Ford-Fulkerson
 
 ### 3. Proprietário ###
 
