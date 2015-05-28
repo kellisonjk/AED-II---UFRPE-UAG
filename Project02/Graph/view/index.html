@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="expires" content="0">
+        <meta http-equiv="cache-control" content="no-cache" />
+        <meta http-equiv="Pragma" content="no-cache">
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:400,700">
+        <link href="./css/style.css" rel="stylesheet">
+        <script src="./js/jquery.min.js"></script>
+        <script src="./js/d3.v2_2.9.3.js"></script>
+        <script>
+        function showGraph() {
+            var url = "graph.html";
+            jQuery.ajax({
+                    type: 'GET',
+                    url: url,
+                    dataType: "html",
+                    cache: false,
+                    success: function(content) {
+                        $("#data_graph").empty().append( content );
+                    }
+            });
+        }
+
+        function changeNode1() {
+            var name;
+            name = prompt("Hey! Thank you for visit me!\nWhat is your name?");
+            $("#user").html(name);
+            $("#node1").val(name);
+            $("#change_node1").html("Are you not " + name + "? Click me.");
+            $("label[for='node2'").html("... tell me the name of someone you know:");
+            $("div#information").css("display","none");
+        }
+
+        $(document).ready(function() {
+            //changeNode1();
+
+            $("#show_graph").click(function() {
+                showGraph();
+            });
+
+            $("#change_node1").click(function() {
+                changeNode1();
+            });
+
+            $('#form_node').submit(function() {
+                var datafield = jQuery(this).serialize();
+                var url_form = $('#form_node').attr( "action" );
+                jQuery.ajax({
+                    type: 'POST',
+                    url: url_form ,
+                    data: datafield,
+                    success: function() {
+                        $("#node2").val("");
+                        $("#node2").focus();
+                        $("label[for='node2'").html("...you know a lot of people, I bet! So, come on... this field is still empty:");
+                        $("div#information").css("display","block");
+                        showGraph();
+                    },
+                    error: function() {
+                        alert("I'm sorry, I couldn't save your data =(");
+                    }
+                });
+
+                return false;
+            });
+        });
+        </script>
+    </head>
+    <body>
+        <div id="data_form">
+            <header>
+                <h1> Trabalhando com grafos.</h1>                
+            </header>
+            <div>
+                <p>
+                Grafo gerado com os dados, lidos pela aplicação console, salvos em <a href="arris.csv">arris.csv</a>. Este arquivo contem <em>n</em> tuplas compostas por 3 colunas: os dois vertices da aresta e o valor do custo da aresta. Por enquanto as arestas estão sendo representados para um grafo simples, ignorando arestas iguais de pesos diferentes.                
+                </p>
+            </div>
+            <div>
+                <button name="show_graph" id="show_graph" >Atualizar o grafo?</button>
+            </div>
+        </div>
+
+        <div id="data_graph">
+        </div>
+        <script>
+            showGraph();        
+        </script>
+        <div class="footer">
+            Universidade Federal Rural de Pernambuco - Unidade Acadêmica de Garanhuns <br>
+            Algoritmos e Estruturas de Dados - Projeto #2 - 2015.1 <br>
+            José Kellison de Almeida Silva
+        </div>
+    </body>
+</html>
+
+

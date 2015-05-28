@@ -1,0 +1,81 @@
+body{
+    font-family: "Roboto";
+    color: rgb(119, 119, 119);
+    font-weight: 400;
+    font-size: 20px;
+    font-style: normal;
+    margin:3% 5% 8% 5% ;
+}
+
+header, header h1{font-weight: normal;margin-top: -10px;}
+
+input, button{
+    font-family: "Roboto";
+    font-size: 14px;
+}
+
+input[type='submit'], button{
+    border:2px solid #ccc;
+    cursor: pointer;
+}
+button[disabled]{
+    cursor: not-allowed;
+}
+
+div{
+    position: relative;
+    float: left;
+}
+
+div#data_form{
+    height:400px;
+    width: 33%;
+    padding:0px 15px 0px 15px;
+    margin:0px 15px 0px 0px;
+    
+}
+
+div#information{
+    top:25px;
+    font-size: 20px;
+}
+
+div.footer{
+    width: 100%;
+    border:1px solid;
+    text-align: center;
+    margin-top: 12px;
+    padding: 10px;
+    font-size: 13px;
+}
+
+a{
+    text-decoration: none;
+}
+
+p{
+    text-indent: 25px;
+    text-align: justify;
+    line-height: 0.8cm;
+}
+
+svg{
+    border: 2px solid #3399FF;
+    background-color: #FAFFFF;
+}
+
+.node {
+  stroke: white;
+  stroke-width: 0px;
+}
+
+.link {
+  fill: none;
+  stroke: #bbb;
+}
+
+text {
+    font: 13px "Roboto";
+    pointer-events: none;
+    font-weight: bold;
+}
