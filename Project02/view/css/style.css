@@ -65,9 +65,12 @@ svg{
 }
 
 .node {
+  fill: white;
   stroke: white;
   stroke-width: 0px;
 }
+
+/*#node_4 circle{fill:red}*/
 
 .link {
   fill: none;
@@ -75,7 +78,7 @@ svg{
 }
 
 text {
-    font: 13px "Roboto";
+    font: 14px "Roboto";
     pointer-events: none;
     font-weight: bold;
 }

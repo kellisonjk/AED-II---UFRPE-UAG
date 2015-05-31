@@ -21,17 +21,23 @@ int main() {
 	a.push_back(4);
 	a.push_back(5);
 
-	Graph<int> g(a);
+	Graph<int> g("new",a);
 
-	cout << endl << " Matriz de Adjacencias: " << endl;
-	g.setArris(0, 4, 1);
-	g.setArris(4, 0, 3);
-	g.setArris(0, 2, 5);
-	g.setArris(0, 1, 2);
-	g.setArris(1, 2, 15);
-	g.setArris(1, 3, 2);
-	g.setArris(3, 2, 9);
-	g.setArris(4, 2, 7);
+
+	printf("\n %c%c%c%c%c%c%c Trabalhando com Grafos %c%c%c%c%c%c%c \n\n", 
+		205, 205, 205, 205, 205, 205, 205, 205, 205, 205, 205, 205, 205, 205);
+
+	g.showAllVertex();
+
+	cout << endl << " Matriz de Adjacencias (com custos): " << endl << endl;
+
+	g.setEdge(5, 1, 3);
+	g.setEdge(1, 3, 5);
+	g.setEdge(1, 2, 2);
+	g.setEdge(2, 3, 15);
+	g.setEdge(2, 4, 2);
+	g.setEdge(4, 3, 9);
+	g.setEdge(5, 3, 7);
 
 	g.showMatriz();
 	cout << endl << endl << " Visualizar o grafo? 1 - SIM: ";
@@ -46,4 +52,4 @@ int main() {
 	cin.get();
 
 	return 0;
-}
+ }

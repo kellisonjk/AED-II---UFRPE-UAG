@@ -21,29 +21,44 @@
 #include <stdexcept>
 #include <fstream>
 #include <Windows.h>
-#include "Arris.hpp"
+#include "Edge.hpp"
 
-#define GRAPHVIEW "<CAMINHO>/Project02/Graph/view/index.html"
+// Caminho para o arquivo que será usado para exibir o grafo
+#define GRAPHVIEW "C:/wamp/bin/apache/apache2.4.9/cgi-bin/projetos/aedii/Project02/view/index.html"
+
+// Arquivo onde serão armazenados os dados das arestas
+#define FILEOUTPUT "./view/edges.csv"
 
 using namespace std;
 
-template <class Tpl>
+template <class TVertex>
 class Graph{
 public:
 	Graph();
-	Graph(vector<Tpl>);
-	Arris<Tpl> getArris(Tpl, Tpl);
-	void setArris(Tpl, Tpl, double);
-	Tpl getVertice(int);
-	vector< Arris<Tpl> > getAdjacents(Tpl);
-	void saveFile(Tpl, Tpl, double);
+	Graph(string);
+	Graph(string, vector<TVertex>);
+	Edge<TVertex> getEdge(TVertex, TVertex);
+	void setEdge(TVertex, TVertex, double);
+	TVertex getVertex(int);
+	vector< Edge<TVertex> > getAdjacents(TVertex);
+	vector< Edge<TVertex> > getAllEdges();
+	int getIndex(TVertex);
 	void showMatriz();
 	void showGraphView();
+	void showAllVertex();
+	int getNumberVertex();
+	int getNumberEdge();
+
+	void saveFile(TVertex, TVertex, double);
+	void openFile(string);
+
+	void operator= (Graph<TVertex>&);
 
 	virtual ~Graph();
 private:
-	vector<Tpl> vertices;
-	vector< vector<Tpl> > adjacencyMatriz;
+	vector<TVertex> vertex;
+	vector< vector<TVertex> > adjacencyMatriz;
+	int edgeNumber;
 	ofstream outfile;
 };
 
