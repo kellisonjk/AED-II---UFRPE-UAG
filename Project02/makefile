@@ -16,4 +16,4 @@ Kruskal.o: ./Kruskal/Kruskal.hpp ./Kruskal/Kruskal.cpp
 	g++ -c ./Kruskal/Kruskal.cpp
 		
 clean:
-	rm Grafos.exe *.o *.stackdump
+	rm GrafosApp.exe *.o

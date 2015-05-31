@@ -5,12 +5,12 @@
 
 #### - Execução do Projeto ####
 
-O arquivo de testes para o *Projeto 02* é o arquivo `Grafos.cpp`. Todos os algoritmos serão testados dentro do arquivo anteriormente mencionado, de modo que cada algoritmo será adicionado 
-incrementalmente ao `Grafos.cpp` (o andamento dos incrementos poderá ser visto no item **2.2**).
+O arquivo de testes para o *Projeto 02* é o arquivo `GrafosApp.cpp`. Todos os algoritmos serão testados dentro do arquivo anteriormente mencionado, de modo que cada algoritmo será adicionado 
+incrementalmente ao `GrafosApp.cpp` (o andamento dos incrementos poderá ser visto no item **2.2**).
 
 Sendo assim, **o comando ` make ` deverá ser executado dentro da pasta ` Project02 `.**
 
-Após a execução do comando `make`, o arquivo para execução será o `Grafos<.EXTENSÃO>`.
+Após a execução do comando `make`, o arquivo para execução será o `GrafosApp<.EXTENSÃO>`.
 
 (Antes da execuçao, veja as informações abaixo).
 
