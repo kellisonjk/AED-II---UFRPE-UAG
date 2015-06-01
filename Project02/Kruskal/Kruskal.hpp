@@ -16,7 +16,7 @@
 #include "../Graph/Graph.hpp"
 
 // Arquivo onde serão armazenados os dados das arestas
-#define FILEOUTPUT_KRUSKAL "../view/Kruskal.csv"
+#define FILEOUTPUT_KRUSKAL "./view/kruskal.csv"
 
 using namespace std;
 

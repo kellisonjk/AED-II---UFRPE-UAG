@@ -2,7 +2,7 @@ body{
     font-family: "Roboto";
     color: rgb(119, 119, 119);
     font-weight: 400;
-    font-size: 20px;
+    font-size: 17px;
     font-style: normal;
     margin:3% 5% 8% 5% ;
 }
@@ -18,8 +18,19 @@ input[type='submit'], button{
     border:2px solid #ccc;
     cursor: pointer;
 }
+
+fieldset .highlight_path{
+    width: 160px;
+    margin: 5px 5px 5px 15px;
+}
+
 button[disabled]{
     cursor: not-allowed;
+}
+
+fiedlset{
+    width: 95%;
+    padding-top: 25px;
 }
 
 div{
@@ -68,17 +79,57 @@ svg{
   fill: white;
   stroke: white;
   stroke-width: 0px;
+  cursor: move;
 }
 
-/*#node_4 circle{fill:red}*/
+.node circle{
+stroke-width:4px;
+}
+
+.highlight_node {
+  fill: white;
+  stroke: #666;
+  stroke-width: 0px;
+  cursor: move;
+}
+.highlight_node circle{
+    fill:#3399FF;
+    stroke-width:1px;}
+
+.highlight_node textPath{
+    fill:red;}
 
 .link {
   fill: none;
   stroke: #bbb;
 }
 
+path.link {
+  fill: none;
+  stroke: #bbb;
+  stroke-width: 2px;
+}
+
+marker#arrow_highlight {
+  fill: #3399FF;
+}
+marker#arrow_normal {
+  fill: #bbb;
+}
+
+.highlight_edge{
+  fill: none;
+  /*stroke: #3399CC; */
+  stroke: #3399FF;
+  stroke-width:  2.3px;
+}
+
 text {
     font: 14px "Roboto";
     pointer-events: none;
     font-weight: bold;
+}
+
+textPath{
+    fill: #bbb;
 }

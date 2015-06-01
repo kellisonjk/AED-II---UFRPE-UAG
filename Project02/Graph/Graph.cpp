@@ -6,8 +6,9 @@
 *		- Descrição:
 *			Implementação de um Grafo.
 *		- Detalhes:
-*		  - Serão consideradas, na matriz de adjacências, arestas não existentes aquelas que possuem custo 0.
-*		  - Arestas duplas não são possíveis, por hora. Exemplo: (a,b) == (b,a)
+*		  - Serão consideradas, na matriz de adjacências, arestas não existentes aquelas que possuem custo -1
+*		  - A implementação atual considera arestas duplas, ou seja:
+*			->  (a,b, custo) != (b,a, custo)
 *
 */
 
@@ -42,7 +43,7 @@ Graph<TVertex>::Graph(string f_op, vector<TVertex> vertex){
 	this->vertex = vertex;
 	this->adjacencyMatriz.resize(vertex.size());
 	for (int i = 0; i < (int) vertex.size(); i++){
-		this->adjacencyMatriz[i].resize(vertex.size());
+		this->adjacencyMatriz[i].resize(vertex.size(),-1);
 	}
 }
 
@@ -147,7 +148,7 @@ vector< Edge<TVertex> > Graph<TVertex>::getAdjacents(TVertex u){
 
 		for (int i = 0; i < (int) this->vertex.size(); i++){
 			// == 0 implica em não existência da aresta
-			if (this->adjacencyMatriz[i][index] != 0)
+			if (this->adjacencyMatriz[i][index] != -1)
 				adj.push_back(Edge<TVertex>(index, i, this->adjacencyMatriz[i][index]));
 		}
 
@@ -172,7 +173,7 @@ vector< Edge<TVertex> > Graph<TVertex>::getAllEdges(){
 		for (int i = 0; i < (int) this->vertex.size(); i++){
 			//vector< Edge<TVertex> > aux = this->getAdjacents(this->vertex.at(i));
 			for (int j = 0; j <= i; j++){
-				if (this->adjacencyMatriz[i][j] != 0){
+				if (this->adjacencyMatriz[i][j] > -1){
 					adj.push_back(Edge<TVertex>(this->vertex.at(i), this->vertex.at(j), this->adjacencyMatriz[i][j]));
 				}
 			}
@@ -220,7 +221,7 @@ void Graph<TVertex>::showMatriz(){
 			else
 				cout << "  ";
 
-			if (this->adjacencyMatriz[i][j] != 0)
+			if (this->adjacencyMatriz[i][j] != -1)
 				cout << this->adjacencyMatriz[i][j];
 			else
 				cout << "-";
@@ -269,5 +270,11 @@ void Graph<TVertex>::operator= (Graph<TVertex> &data){
 
 template <class TVertex>
 Graph<TVertex>::~Graph(){
+
+	for (int i = 0; i < this->getNumberVertex(); i++){
+		if (this->getAdjacents(this->vertex[i]).size() == 0)
+			this->saveFile(this->vertex[i], this->vertex[i], -1);
+	}
+
 	this->outfile.close();
 }

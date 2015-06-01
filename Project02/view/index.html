@@ -1,4 +1,6 @@
-
+<!--
+    Desenvolvido com base em exemplos encontrados em http://bl.ocks.org/mbostock
+-->
 <!DOCTYPE html>
 <html>
     <head>
@@ -11,62 +13,100 @@
         <script src="./js/jquery.min.js"></script>
         <script src="./js/d3.v2_2.9.3.js"></script>
         <script>
-        function showGraph() {
-            var url = "graph.html";
-            jQuery.ajax({
-                    type: 'GET',
-                    url: url,
-                    dataType: "html",
-                    cache: false,
-                    success: function(content) {
-                        $("#data_graph").empty().append( content );
-                    }
-            });
-        }
+            function highlighter(csv){
+                 var aresta = d3.select("#data_graph");
+                 var svg = d3.select("#data_graph");
+                 d3.csv(csv,
+                    function(links) {
+                        var nodesByName = {};
 
-        function changeNode1() {
-            var name;
-            name = prompt("Hey! Thank you for visit me!\nWhat is your name?");
-            $("#user").html(name);
-            $("#node1").val(name);
-            $("#change_node1").html("Are you not " + name + "? Click me.");
-            $("label[for='node2'").html("... tell me the name of someone you know:");
-            $("div#information").css("display","none");
-        }
+                        // Create nodes for each unique source and target.
+                        links.forEach(function(link,i) {
+                            link.source = nodeByName(link.Node1);
+                            link.target = nodeByName(link.Node2);
+                            // Edges
+                            var l = svg.selectAll("#edge_"+link.source.name+"_"+link.target.name+"");
+                            
+                            // Cost label
+                            var lc = svg.selectAll("#edge_cost_"+link.source.name+"_"+link.target.name+"");
+								// Pequeno "jeitinho" para driblar o problema da matriz de adjacencia :
+								// Vetores nao sao apresentados na ordem de adicao: adicionado como (a,b,c) mas apresentado como (b,a,c)
+								if(l[0].length == 0)
+									l = svg.selectAll("#edge_"+link.target.name+"_"+link.source.name+"");
+                                if(lc[0].length == 0)
+									lc = svg.selectAll("#edge_cost_"+link.target.name+"_"+link.source.name+"");
+                                    
+								// Fim do "jeitinho"
+                            
+                                l.attr("class","highlight_edge").attr("marker-end", "url(#arrow_highlight)");
+                               
+                                lc.style("fill","red");
+                            
+                                var s = svg.selectAll("#node_"+link.source.name+"");
+                                    s.attr("class","highlight_node");
+                                var t = svg.selectAll("#node_"+link.target.name+"");
+                                    t.attr("class","highlight_node");
+                        });
+                     
+                        
 
-        $(document).ready(function() {
-            //changeNode1();
-
-            $("#show_graph").click(function() {
-                showGraph();
-            });
-
-            $("#change_node1").click(function() {
-                changeNode1();
-            });
-
-            $('#form_node').submit(function() {
-                var datafield = jQuery(this).serialize();
-                var url_form = $('#form_node').attr( "action" );
+                        function nodeByName(name) {
+                            return nodesByName[name] || (nodesByName[name] = {name: name});
+                        }
+                    });
+                
+                    
+            }
+        
+            function showGraph() {
+                var url = "graph.html";
                 jQuery.ajax({
-                    type: 'POST',
-                    url: url_form ,
-                    data: datafield,
-                    success: function() {
-                        $("#node2").val("");
-                        $("#node2").focus();
-                        $("label[for='node2'").html("...you know a lot of people, I bet! So, come on... this field is still empty:");
-                        $("div#information").css("display","block");
-                        showGraph();
-                    },
-                    error: function() {
-                        alert("I'm sorry, I couldn't save your data =(");
-                    }
+                        type: 'GET',
+                        url: url,
+                        dataType: "html",
+                        cache: false,
+                        success: function(content) {
+                            $("#data_graph").empty().append( content );
+                        }
+                });
+            }
+
+            $(document).ready(function() {
+                //changeNode1();
+
+                $("#show_graph").click(function() {
+                    showGraph();
+                });
+                $("#kruskal").click(function(d) {
+                    highlighter(this.id+".csv");
                 });
 
-                return false;
+                $("#change_node1").click(function() {
+                    changeNode1();
+                });
+
+                $('#form_node').submit(function() {
+                    var datafield = jQuery(this).serialize();
+                    var url_form = $('#form_node').attr( "action" );
+                    jQuery.ajax({
+                        type: 'POST',
+                        url: url_form ,
+                        data: datafield,
+                        success: function() {
+                            $("#node2").val("");
+                            $("#node2").focus();
+                            $("label[for='node2'").html("...you know a lot of people, I bet! So, come on... this field is still empty:");
+                            $("div#information").css("display","block");
+                            showGraph();
+                        },
+                        error: function() {
+                            alert("I'm sorry, I couldn't save your data =(");
+                        }
+                    });
+
+                    return false;
+                });
             });
-        });
         </script>
     </head>
     <body>
@@ -76,16 +116,27 @@
             </header>
             <div>
                 <p>
-                Grafo gerado com os dados, lidos pela aplicação console, salvos em <a href="arris.csv">arris.csv</a>. Este arquivo contem <em>n</em> tuplas compostas por 3 colunas: os dois vertices da aresta e o valor do custo da aresta. Por enquanto as arestas estão sendo representados para um grafo simples, ignorando arestas iguais de pesos diferentes.                
+                Grafo gerado com os dados, lidos pela aplicação console, salvos em <a href="arris.csv">arris.csv</a>. Este arquivo contem <em>n</em> tuplas compostas por 3 colunas: os dois vertices da aresta e o valor do custo da aresta.                
                 </p>
+                <button name="show_graph" id="show_graph" >Restaurar o grafo</button>
+                <br><br>
             </div>
-            <div>
-                <button name="show_graph" id="show_graph" >Atualizar o grafo?</button>
-            </div>
+            
+            <fieldset>
+                <legend> Algoritmos </legend>
+                
+                <button name="highlight_path" class="highlight_path" id="kruskal" >Exibir Kruskal</button>
+                <button name="highlight_path" class="highlight_path" id="prim" disabled>Exibir Prim</button>
+                <button name="highlight_path" class="highlight_path" id="floyd-warshall" disabled>Exibir Floyd-Warshall</button>
+                <button name="highlight_path" class="highlight_path" id="ford-fulkerson" disabled>Exibir Ford-Fulkerson</button>
+                <button name="highlight_path" class="highlight_path" id="dijkstra" disabled>Exibir Dijkstra</button>
+            </fieldset>
         </div>
 
         <div id="data_graph">
+            33
         </div>
+        
         <script>
             showGraph();        
         </script>

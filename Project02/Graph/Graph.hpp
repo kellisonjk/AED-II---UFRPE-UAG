@@ -24,7 +24,10 @@
 #include "Edge.hpp"
 
 // Caminho para o arquivo que será usado para exibir o grafo
-#define GRAPHVIEW "C:/wamp/bin/apache/apache2.4.9/cgi-bin/projetos/aedii/Project02/view/index.html"
+#define GRAPHVIEW "<CAMINHO>/aedii/Project02/view/index.html"
+
+//#define GRAPHVIEW "C:/wamp/bin/apache/apache2.4.9/cgi-bin/projetos/aedii/Project02/view/index.html"
+
 
 // Arquivo onde serão armazenados os dados das arestas
 #define FILEOUTPUT "./view/edges.csv"
