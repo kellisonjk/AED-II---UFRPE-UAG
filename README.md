@@ -42,7 +42,7 @@ salvos até a próxima execução da aplicação. O arquivo para visualização 
 
 * Repósitorio para o projeto da disciplina "Algoritmo e Estruturas de Dados II" (AED II) do curso de BCC na UFRPE UAG.
 
-* Professor: Rian Gabriel
+* Professor: Rian Gabriel Pinheiro
 
 ### 2. Algoritmos/Estruturas
 
