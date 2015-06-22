@@ -5,8 +5,10 @@
 
 #### - Execução do Projeto ####
 
+*(UPDATE NA EXECUÇÃO DOS TESTES)*
+
 Houve uma pequena mudança em relação ao planejado anteriormente, onde os algoritmo seriam testados em um único "Main" (no caso o GrafosApp.exe)
-agora cada um terpa o seu próprio "Main" para testes dentro de seus diretórios, sendo nomeados como "AppNome_do_Algoritmo.exe".
+agora cada um posuirá o seu próprio "Main" para testes dentro de seus diretórios, sendo nomeados como "AppNome_do_Algoritmo.exe".
 
 #### - Visualização dos Grafos - Web Browser ####
 
