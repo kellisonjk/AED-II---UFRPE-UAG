@@ -38,7 +38,7 @@ grafos graficamente através do seu web browser. Para que seja possível a execu
 
 * Repósitorio para o projeto da disciplina "Algoritmo e Estruturas de Dados II" (AED II) do curso de BCC na UFRPE UAG.
 
-* Professor: Rian Gabriel
+* Professor: Rian Gabriel Pinheiro
 
 ### 2. Algoritmos/Estruturas
 
