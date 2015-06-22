@@ -20,17 +20,17 @@
 #include <stdlib.h>
 #include <stdexcept>
 #include <fstream>
-#include <Windows.h>
+//#include <Windows.h>
+#include <limits> 
 #include "Edge.hpp"
 
 // Caminho para o arquivo que será usado para exibir o grafo
-#define GRAPHVIEW "<CAMINHO>/aedii/Project02/view/index.html"
+//#define GRAPHVIEW "<CAMINHO>/aedii/Project02/view/index.html"
 
-//#define GRAPHVIEW "C:/wamp/bin/apache/apache2.4.9/cgi-bin/projetos/aedii/Project02/view/index.html"
-
+#define GRAPHVIEW "C:/wamp/bin/apache/apache2.4.9/cgi-bin/projetos/aedii/Project02/view/index.html"
 
 // Arquivo onde serão armazenados os dados das arestas
-#define FILEOUTPUT "./view/edges.csv"
+#define FILEOUTPUT "../view/edges.csv"
 
 using namespace std;
 
@@ -43,6 +43,7 @@ public:
 	Edge<TVertex> getEdge(TVertex, TVertex);
 	void setEdge(TVertex, TVertex, double);
 	TVertex getVertex(int);
+	vector<TVertex> getVertex();
 	vector< Edge<TVertex> > getAdjacents(TVertex);
 	vector< Edge<TVertex> > getAllEdges();
 	int getIndex(TVertex);
@@ -63,6 +64,32 @@ private:
 	vector< vector<TVertex> > adjacencyMatriz;
 	int edgeNumber;
 	ofstream outfile;
+};
+
+struct VertexCost{
+	int vertexc;
+	double cost;
+	
+	void add(int v, double c){
+		vertexc = v;
+		cost = c;
+	}
+
+	bool operator< (VertexCost data){
+		return (cost < data.cost);
+	}
+
+	bool operator>(VertexCost data){
+		return (cost > data.cost);
+	}
+
+	bool operator>= (VertexCost data){
+		return (cost >= data.cost);
+	}
+
+	bool operator<= (VertexCost data){
+		return (cost <= data.cost);
+	}
 };
 
 

@@ -72,7 +72,6 @@ p{
 
 svg{
     border: 2px solid #3399FF;
-    background-color: #FAFFFF;
 }
 
 .node {
@@ -88,13 +87,13 @@ stroke-width:4px;
 
 .highlight_node {
   fill: white;
-  stroke: #666;
+  stroke: white;
   stroke-width: 0px;
   cursor: move;
 }
 .highlight_node circle{
     fill:#3399FF;
-    stroke-width:1px;}
+    stroke-width:4px;}
 
 .highlight_node textPath{
     fill:red;}
@@ -130,6 +129,10 @@ text {
     font-weight: bold;
 }
 
-textPath{
+.edge_cost{
     fill: #bbb;
+}
+
+.subscript{
+    font-size: 13px;
 }

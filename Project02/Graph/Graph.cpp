@@ -9,6 +9,8 @@
 *		  - Serão consideradas, na matriz de adjacências, arestas não existentes aquelas que possuem custo -1
 *		  - A implementação atual considera arestas duplas, ou seja:
 *			->  (a,b, custo) != (b,a, custo)
+*		   UPDATE: o grafo não está considerando grafo direcional, apenas arestas simples serão consideradas, assim 
+*				   sendo:  (a,b, custo) == (b,a, custo)
 *
 */
 
@@ -20,11 +22,7 @@ using namespace std;
 
 // Inicializadores da classe
 template <class TVertex>
-Graph<TVertex>::Graph(){
-	// Para o arquivo "base de dados" das arestas
-	this->openFile("");
-	this->edgeNumber = 0;
-}
+Graph<TVertex>::Graph(){}
 
 template <class TVertex>
 Graph<TVertex>::Graph(string f_op){
@@ -50,6 +48,11 @@ Graph<TVertex>::Graph(string f_op, vector<TVertex> vertex){
 template <class TVertex>
 TVertex Graph<TVertex>::getVertex(int ind){
 	return this->vertex[ind];
+}
+
+template <class TVertex>
+vector<TVertex> Graph<TVertex>::getVertex(){
+	return this->vertex;
 }
 
 // Verifica qual a posição do vértice dentro do vetor de vértices
@@ -92,8 +95,8 @@ void Graph<TVertex>::setEdge(TVertex u, TVertex v, double cost){
 		int ind_u = this->getIndex(u);
 		int ind_v = this->getIndex(v);
 
-		this->adjacencyMatriz[ind_u][ind_v] = (double) cost;
-		this->adjacencyMatriz[ind_v][ind_u] = (double) cost;
+		this->adjacencyMatriz[ind_u][ind_v] = (double)cost;
+		this->adjacencyMatriz[ind_v][ind_u] = (double)cost;
 
 		this->saveFile(ind_u, ind_v, cost);
 		this->edgeNumber++;
@@ -130,11 +133,13 @@ template <class TVertex>
 void Graph<TVertex>::openFile(string f_op){
 	// Caso a implementação seja definida como new, abre o arquivo como escrita
 	if (f_op == "new"){
+		cout << "NEW" << endl;
 		this->outfile.open(FILEOUTPUT, ios::out | ios::trunc);
 		this->outfile << "Node1,Node2,Cost" << endl;
 	}
 	// Abre como edição
 	else{
+		cout << "APP" << endl;
 		this->outfile.open(FILEOUTPUT, ios::app);
 	}
 }
@@ -148,8 +153,8 @@ vector< Edge<TVertex> > Graph<TVertex>::getAdjacents(TVertex u){
 
 		for (int i = 0; i < (int) this->vertex.size(); i++){
 			// == 0 implica em não existência da aresta
-			if (this->adjacencyMatriz[i][index] != -1)
-				adj.push_back(Edge<TVertex>(index, i, this->adjacencyMatriz[i][index]));
+			if (this->adjacencyMatriz[index][i] != -1)
+				adj.push_back(Edge<TVertex>(i, index, this->adjacencyMatriz[index][i]));
 		}
 
 		return adj;
@@ -172,7 +177,7 @@ vector< Edge<TVertex> > Graph<TVertex>::getAllEdges(){
 
 		for (int i = 0; i < (int) this->vertex.size(); i++){
 			//vector< Edge<TVertex> > aux = this->getAdjacents(this->vertex.at(i));
-			for (int j = 0; j <= i; j++){
+			for (int j = i; j < (int) this->vertex.size(); j++){
 				if (this->adjacencyMatriz[i][j] > -1){
 					adj.push_back(Edge<TVertex>(this->vertex.at(i), this->vertex.at(j), this->adjacencyMatriz[i][j]));
 				}
@@ -255,7 +260,7 @@ void Graph<TVertex>::showAllVertex(){
 // Método responsável por abrir o arquivo html de visualização do grafo
 template <class TVertex>
 void Graph<TVertex>::showGraphView(){
-	ShellExecute(NULL, "open", GRAPHVIEW, NULL, NULL, SW_SHOWNORMAL);
+	//ShellExecute(NULL, "open", GRAPHVIEW, NULL, NULL, SW_SHOWNORMAL);
 }
 
 // Overload da do operador =
@@ -273,7 +278,7 @@ Graph<TVertex>::~Graph(){
 
 	for (int i = 0; i < this->getNumberVertex(); i++){
 		if (this->getAdjacents(this->vertex[i]).size() == 0)
-			this->saveFile(this->vertex[i], this->vertex[i], -1);
+			this->saveFile(this->getIndex(this->vertex[i]), this->getIndex(this->vertex[i]), -1);
 	}
 
 	this->outfile.close();

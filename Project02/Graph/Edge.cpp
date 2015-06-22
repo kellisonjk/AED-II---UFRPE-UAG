@@ -19,31 +19,46 @@ Edge<TVertex>::Edge(){
 
 template <class TVertex>
 Edge<TVertex>::Edge(TVertex u, TVertex v, double cost){
-	this->vert_u = u;
-	this->vert_v = v;
-	this->cost = cost;
+	this->v_source = u;
+	this->v_target = v;
+	this->e_cost = cost;
 }
 
 template <class TVertex>
-TVertex Edge<TVertex>::getVertexU(){
-	return this->vert_u;
+TVertex Edge<TVertex>::vertexSource(){
+	return this->v_source;
 }
 
 template <class TVertex>
-TVertex Edge<TVertex>::getVertexV(){
-	return this->vert_v;
+void Edge<TVertex>::vertexSource(TVertex vertex){
+	this->v_source = vertex;
 }
 
 template <class TVertex>
-double Edge<TVertex>::getCost(){
-	return this->cost;
+TVertex Edge<TVertex>::vertexTarget(){
+	return this->v_target;
+}
+
+template <class TVertex>
+void Edge<TVertex>::vertexTarget(TVertex vertex){
+	this->v_target = vertex;
+}
+
+template <class TVertex>
+double Edge<TVertex>::cost(){
+	return this->e_cost;
+}
+
+template <class TVertex>
+void Edge<TVertex>::cost(double cost){
+	this->e_cost = cost;
 }
 
 // Overload da do operador == 
 template <class TVertex>
 bool Edge<TVertex>::operator== (Edge<TVertex> data){
-	if (((this->vert_u == data.getVertexU()) && (this->vert_v == data.getVertexV())) ||
-		((this->vert_v == data.getVertexU()) && (this->vert_u == data.getVertexV())))
+	if (((this->v_source == data.vertexSource()) && (this->v_target == data.vertexTarget())) ||
+		((this->v_target == data.vertexSource()) && (this->v_source == data.vertexTarget())))
 
 		return true;
 
@@ -53,17 +68,17 @@ bool Edge<TVertex>::operator== (Edge<TVertex> data){
 // Overload da do operador >
 template <class TVertex>
 bool Edge<TVertex>::operator> (Edge<TVertex> data){
-	return (this->cost > data.getCost());
+	return (this->e_cost > data.cost());
 }
 
 // Overload da do operador <
 template <class TVertex>
 bool Edge<TVertex>::operator< (Edge<TVertex> data){
-	return (this->cost < data.getCost());
+	return (this->e_cost < data.cost());
 }
 
 //template <class TVertex>
 //ostream& operator<< (ostream &output, Edge<TVertex>& data){
-//	output << "(" << data.getVertexU() << "," << data.getVertexV() << " )";
+//	output << "(" << data.vertexSource() << "," << data.vertexTarget() << " )";
 //	return output;
 //}

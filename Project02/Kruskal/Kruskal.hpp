@@ -11,12 +11,13 @@
 #include <string>
 #include <vector>
 #include <stdlib.h>
+#include <math.h>
 #include <stdexcept>
 #include <fstream>
 #include "../Graph/Graph.hpp"
 
 // Arquivo onde serão armazenados os dados das arestas
-#define FILEOUTPUT_KRUSKAL "./view/kruskal.csv"
+#define FILEOUTPUT_EDGES "../view/kruskal.csv"
 
 using namespace std;
 
@@ -26,10 +27,7 @@ class Kruskal
 public:
 	Kruskal();
 	Kruskal(Graph<TVertex>);
-	void createMST();
 	vector< Edge<TVertex> > getMST();
-	int findComponent(TVertex);
-	void mergeComponent(TVertex, TVertex);
 	void printEdges();
 	void saveEdgesFile();
 
@@ -38,6 +36,9 @@ public:
 
 	~Kruskal();
 private:
+	void createMST();
+	int findComponent(TVertex);
+	void mergeComponent(TVertex, TVertex);
 	vector< Edge<TVertex> > mst; // Minimum Spanning Tree (Arvore Geradora Mínima)
 	int components[]; // Componentes complexos
 

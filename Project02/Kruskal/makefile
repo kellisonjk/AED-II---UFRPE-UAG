@@ -1,5 +1,11 @@
-all: Kruskal.o Graph.o Edge.o
-	
+all: AppKruskal.exe
+
+AppKruskal.exe: Graph.o Edge.o Main.o Kruskal.o 
+	g++ Main.o Kruskal.o Graph.o Edge.o -o AppKruskal.exe
+
+Main.o: Main.cpp
+	g++ -c Main.cpp
+
 Graph.o: ../Graph/Graph.hpp ../Graph/Graph.cpp
 	g++ -c ../Graph/Graph.cpp
 
@@ -8,7 +14,6 @@ Edge.o: ../Graph/Edge.hpp ../Graph/Edge.cpp
 
 Kruskal.o: Kruskal.hpp Kruskal.cpp
 	g++ -c Kruskal.cpp
-
 		
 clean:
-	rm *.o
+	rm GrafosApp.exe *.o

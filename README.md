@@ -5,17 +5,16 @@
 
 #### - Execução do Projeto ####
 
-O arquivo de testes para o *Projeto 02* é o arquivo `GrafosApp.cpp`. Todos os algoritmos serão testados dentro deste arquivo, de modo que cada algoritmo será adicionado 
-incrementalmente ao `GrafosApp.cpp` (o andamento dos incrementos poderá ser visto no item **2.2**).
-
-Sendo assim, **o comando ` make ` deverá ser executado dentro da pasta ` Project02 `.**
-
-Após a execução do comando `make`, o arquivo para execução será o `GrafosApp<.EXTENSÃO>`.
-
-(Antes da execuçao, veja as informações abaixo).
+Houve uma pequena mudança em relação ao planejado anteriormente, onde os algoritmo seriam testados em um único "Main" (no caso o GrafosApp.exe)
+agora cada um terpa o seu próprio "Main" para testes dentro de seus diretórios, sendo nomeados como "AppNome_do_Algoritmo.exe".
 
 #### - Visualização dos Grafos - Web Browser ####
 
+As arestas dos grafos são salvos em arquivos .csv, mesmo após o fim da execução da aplicação esses dados permanecerão 
+salvos até a próxima execução da aplicação. O arquivo para visualização (`index.html`) está contido dentro da pasta `Project02/view`.
+
+*(UPDATE TEMPORÁRIO) Não há a necessidade de realizar a configuração citada neta parte do README, pois a opção para a visualização 
+direta a partir do console está desabilitada.
 *(A execução da aplicação [console] não é afetada sem esta configuração)*
 
 O *Projeto 02* possui um método de visualização grafica desenvolvido com HTML5 e D3. Logo ao fim da execução da aplicação console, você terá a opção de escolher visualizar os 
@@ -31,9 +30,6 @@ grafos graficamente através do seu web browser. Para que seja possível a execu
 #define GRAPHVIEW "<CAMINHO>/aedii/Project02/view/index.html"
 
 ```
-
-As arestas dos grafos são salvos em arquivos .csv, mesmo após o fim da execução da aplicação esses dados permanecerão 
-salvos até a próxima execução da aplicação. O arquivo para visualização (`index.html`) está contido dentro da pasta `Project02/view`.
 
 ### INFO. GERAIS ###
 -----------------------
@@ -60,6 +56,7 @@ salvos até a próxima execução da aplicação. O arquivo para visualização 
 
 * Dijkstra
 * Prim
+	* Status: concluído.
 + Kruskal 
 	* Status: concluído.
 * Floyd-Warshall
@@ -67,7 +64,7 @@ salvos até a próxima execução da aplicação. O arquivo para visualização 
 + ***Adicionais***
     * Classes: Graph e Edge (necessárias para a implementação dos algoritmos)
     + Visualização dos grafos através do web browser.
-         * Habilitado para: Graph/Edge, Algoritmos[Kruskal].
+         * Habilitado para: Graph/Edge, Algoritmos[Kruskal, Prim].
 
 ### 3. Proprietário ###
 

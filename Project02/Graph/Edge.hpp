@@ -19,20 +19,25 @@ class Edge{
 public:
 	Edge();
 	Edge(TVertex, TVertex, double);
-	TVertex getVertexU();
-	TVertex getVertexV();
-	double getCost();
 
-	//friend ostream& operator<< <>(ostream&, Edge<TVertex>&);
+	TVertex vertexSource();
+	void vertexSource(TVertex);
+	
+	TVertex vertexTarget();
+	void vertexTarget(TVertex);
+	
+	double cost();
+	void cost(double);
+
 	bool operator== (Edge<TVertex> data);
 	bool operator> (Edge<TVertex> data);
 	bool operator< (Edge<TVertex> data);
 	//friend ostream& operator<< (ostream&, Edge<TVertex>&);
 
 private:
-	TVertex vert_u;
-	TVertex vert_v;
-	double cost;
+	TVertex v_source;
+	TVertex v_target;
+	double e_cost;
 
 };
 

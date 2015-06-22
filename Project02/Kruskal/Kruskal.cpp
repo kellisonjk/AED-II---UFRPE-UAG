@@ -61,12 +61,13 @@ void  Kruskal<TVertex>::createMST(){
 
 	sort(edges_graph.begin(), edges_graph.end());
 
-	for (int i = 0; i < (int) edges_graph.size(); i++){
+	for (int i = 0; i < (int) this->graph.getNumberEdge(); i++){
 		outfile << " Laço (" << i << ")" << endl;
 
-		TVertex vertice_u = edges_graph.at(i).getVertexU();
-		TVertex vertice_v = edges_graph.at(i).getVertexV();
-		if (this->graph.getEdge(vertice_u, vertice_v).getCost() > -1){
+		TVertex vertice_u = edges_graph.at(i).vertexSource();
+		TVertex vertice_v = edges_graph.at(i).vertexTarget();
+
+		if (this->graph.getEdge(vertice_u, vertice_v).cost() > -1){
 			outfile << "   Testando os vertices: " << vertice_u << "," << vertice_v << endl;
 
 			// Verifica se os dois vértices fazem parte do mesmo componente
@@ -107,25 +108,24 @@ template <class TVertex>
 void Kruskal<TVertex>::mergeComponent(TVertex vertice_u, TVertex vertice_v){
 	int index_u = this->graph.getIndex(vertice_u);
 	int index_v = this->graph.getIndex(vertice_v);
-	int comp_u = this->components[index_u];
-	int comp_v = this->components[index_v];
+	int bg_comp = this->components[index_u];
+	int sm_comp = this->components[index_v];
 
-	// Une o vértice u ao v (e vice-versa), atualizando seus componentes
-	// A união será feita atribuindo o maior componente ao menor
+	// Verifica qual o maior e menor componente dos vértices
 	if (this->components[index_u] > this->components[index_v]){
-
-		// Atualiza todos os membros do componente em que "u" estava contido
-		for (int i = 0; i < this->graph.getNumberVertex(); i++){
-			if (this->components[i] == comp_u)
-				this->components[i] = comp_v;
-		}
+		sm_comp = this->components[index_v];
+		bg_comp = this->components[index_u];
 	}
 	else{
-		// Atualiza todos os membros do componente em que "v" estava contido
-		for (int i = 0; i < this->graph.getNumberVertex(); i++){
-			if (this->components[i] == comp_v)
-				this->components[i] = comp_u;
-		}
+		sm_comp = this->components[index_u];
+		bg_comp = this->components[index_v];
+	}
+
+
+	// Atualiza todos os membros do componente em que "u" estava contido
+	for (int i = 0; i < this->graph.getNumberVertex(); i++){
+		if (this->components[i] == bg_comp)
+			this->components[i] = sm_comp;
 	}
 
 
@@ -134,6 +134,7 @@ void Kruskal<TVertex>::mergeComponent(TVertex vertice_u, TVertex vertice_v){
 // Retorna as arestas salvas no método getMinimumCost
 template <class TVertex>
 vector< Edge<TVertex> > Kruskal<TVertex>::getMST(){
+	this->createMST();
 	return this->mst;
 }
 
@@ -142,9 +143,9 @@ void Kruskal<TVertex>::printEdges(){
 	cout << "    ";
 	for (int i = 0; i < this->mst.size(); i++)
 	{
-		cout << "(" << this->mst[i].getVertexU() << "," 
-			 << this->mst[i].getVertexV() << ", C = " 
-			 << this->mst[i].getCost() << ") ";
+		cout << "(" << this->mst[i].vertexSource() << "," 
+			 << this->mst[i].vertexTarget() << ", C = " 
+			 << this->mst[i].cost() << ") ";
 		if (i != (this->mst.size() - 1))
 			cout << "  -  ";
 	}
@@ -159,11 +160,12 @@ void Kruskal<TVertex>::saveEdgesFile(){
 
 	ofstream outfile;
 	// Abre o arquivo em modo de escrita para salvar os vertices
-	outfile.open(FILEOUTPUT_KRUSKAL, ios::out | ios::trunc);
+	outfile.open(FILEOUTPUT_EDGES, ios::out | ios::trunc);
 	outfile << "Node1,Node2" << endl;
 
 	for (int i = 0; i < this->mst.size(); i++){
-		outfile << this->mst.at(i).getVertexV() << "," << this->mst.at(i).getVertexU() << endl;
+		outfile << this->graph.getIndex(this->mst.at(i).vertexSource()) 
+			    << "," << this->graph.getIndex(this->mst.at(i).vertexTarget()) << endl;
 	}
 
 	outfile.close();
