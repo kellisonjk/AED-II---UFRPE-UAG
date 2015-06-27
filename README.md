@@ -62,6 +62,7 @@ grafos graficamente através do seu web browser. Para que seja possível a execu
 + Kruskal 
 	* Status: concluído.
 * Floyd-Warshall
+	* Status: concluído.
 * Ford-Fulkerson
 + ***Adicionais***
     * Classes: Graph e Edge (necessárias para a implementação dos algoritmos)

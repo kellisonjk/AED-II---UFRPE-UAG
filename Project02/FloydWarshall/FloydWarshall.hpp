@@ -32,7 +32,7 @@ public:
 	// Atributo (public por causa de um erro q impede a compilação (descrito no .cpp)
 	Graph<TVertex> graph;
 
-	void print();
+	void print(char);
 
 	virtual ~FloydWarshall();
 private:

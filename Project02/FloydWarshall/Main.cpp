@@ -40,13 +40,18 @@ int main(int argc, char* argv[]){
 
 	g.showMatriz();
 
-	cout << endl << endl << " Algoritmo de FLOYD-WARSHALL: Distäncias minimas" << endl << endl;
+	cout << endl << endl << " Algoritmo de FLOYD-WARSHALL" << endl << endl;
 
 	FloydWarshall<int> dist;
 
 	dist.graph = g;
 	dist.getDistances();
-	dist.print();
+
+	cout << " - Distancias minimas entre os pares de vertices: " << endl << endl;
+	dist.print('d');
+
+	cout << endl << " - Antecessores (caminho): " << endl << endl;
+	dist.print('a');
 	
 	cout << endl << endl << " (Pressione <ENTER> para encerrar>" << endl;
 	
