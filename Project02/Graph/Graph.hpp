@@ -21,7 +21,6 @@
 #include <stdexcept>
 #include <fstream>
 //#include <Windows.h>
-#include <limits> 
 #include "Edge.hpp"
 
 // Caminho para o arquivo que será usado para exibir o grafo
@@ -31,6 +30,8 @@
 
 // Arquivo onde serão armazenados os dados das arestas
 #define FILEOUTPUT "../view/edges.csv"
+
+#define INF 999999999
 
 using namespace std;
 
@@ -52,6 +53,8 @@ public:
 	void showAllVertex();
 	int getNumberVertex();
 	int getNumberEdge();
+	
+	vector< vector<TVertex> > getAdjacencyMatriz();
 
 	void saveFile(TVertex, TVertex, double);
 	void openFile(string);

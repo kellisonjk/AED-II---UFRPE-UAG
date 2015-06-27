@@ -6,7 +6,7 @@
 *		- Descrição:
 *			Implementação de um Grafo.
 *		- Detalhes:
-*		  - Serão consideradas, na matriz de adjacências, arestas não existentes aquelas que possuem custo -1
+*		  - Serão consideradas, na matriz de adjacências, arestas não existentes aquelas que possuem custo INF
 *		  - A implementação atual considera arestas duplas, ou seja:
 *			->  (a,b, custo) != (b,a, custo)
 *		   UPDATE: o grafo não está considerando grafo direcional, apenas arestas simples serão consideradas, assim 
@@ -41,7 +41,7 @@ Graph<TVertex>::Graph(string f_op, vector<TVertex> vertex){
 	this->vertex = vertex;
 	this->adjacencyMatriz.resize(vertex.size());
 	for (int i = 0; i < (int) vertex.size(); i++){
-		this->adjacencyMatriz[i].resize(vertex.size(),-1);
+		this->adjacencyMatriz[i].resize(vertex.size(),INF);
 	}
 }
 
@@ -53,6 +53,11 @@ TVertex Graph<TVertex>::getVertex(int ind){
 template <class TVertex>
 vector<TVertex> Graph<TVertex>::getVertex(){
 	return this->vertex;
+}
+
+template <class TVertex>
+vector< vector<TVertex> > Graph<TVertex>::getAdjacencyMatriz(){
+	return this->adjacencyMatriz;
 }
 
 // Verifica qual a posição do vértice dentro do vetor de vértices
@@ -96,7 +101,7 @@ void Graph<TVertex>::setEdge(TVertex u, TVertex v, double cost){
 		int ind_v = this->getIndex(v);
 
 		this->adjacencyMatriz[ind_u][ind_v] = (double)cost;
-		this->adjacencyMatriz[ind_v][ind_u] = (double)cost;
+		//this->adjacencyMatriz[ind_v][ind_u] = (double)cost;
 
 		this->saveFile(ind_u, ind_v, cost);
 		this->edgeNumber++;
@@ -153,7 +158,7 @@ vector< Edge<TVertex> > Graph<TVertex>::getAdjacents(TVertex u){
 
 		for (int i = 0; i < (int) this->vertex.size(); i++){
 			// == 0 implica em não existência da aresta
-			if (this->adjacencyMatriz[index][i] != -1)
+			if (this->adjacencyMatriz[index][i] != INF)
 				adj.push_back(Edge<TVertex>(i, index, this->adjacencyMatriz[index][i]));
 		}
 
@@ -178,7 +183,7 @@ vector< Edge<TVertex> > Graph<TVertex>::getAllEdges(){
 		for (int i = 0; i < (int) this->vertex.size(); i++){
 			//vector< Edge<TVertex> > aux = this->getAdjacents(this->vertex.at(i));
 			for (int j = i; j < (int) this->vertex.size(); j++){
-				if (this->adjacencyMatriz[i][j] > -1){
+				if (this->adjacencyMatriz[i][j] != INF){
 					adj.push_back(Edge<TVertex>(this->vertex.at(i), this->vertex.at(j), this->adjacencyMatriz[i][j]));
 				}
 			}
@@ -221,12 +226,12 @@ void Graph<TVertex>::showMatriz(){
 		printf("  %c", 186);
 		for (int j = 0; j < (int) this->vertex.size(); j++)
 		{
-			if (this->adjacencyMatriz[i][j] < 10)
+			if ((this->adjacencyMatriz[i][j] < 10) || (this->adjacencyMatriz[i][j] == INF))
 				cout << "   ";
 			else
 				cout << "  ";
 
-			if (this->adjacencyMatriz[i][j] != -1)
+			if (this->adjacencyMatriz[i][j] != INF)
 				cout << this->adjacencyMatriz[i][j];
 			else
 				cout << "-";
@@ -278,7 +283,7 @@ Graph<TVertex>::~Graph(){
 
 	for (int i = 0; i < this->getNumberVertex(); i++){
 		if (this->getAdjacents(this->vertex[i]).size() == 0)
-			this->saveFile(this->getIndex(this->vertex[i]), this->getIndex(this->vertex[i]), -1);
+			this->saveFile(this->getIndex(this->vertex[i]), this->getIndex(this->vertex[i]), INF);
 	}
 
 	this->outfile.close();
