@@ -15,7 +15,7 @@
 #include <stdexcept>
 #include <fstream>
 #include "../Graph/Graph.hpp"
-#include "../lib/Heap/Heap.h"
+#include "./Heap/Heap.h"
 
 #define FILEOUTPUT_EDGES "../view/prim.csv"
 

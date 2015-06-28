@@ -13,9 +13,9 @@
 */
 
 #include "Heap.h"
-#include "../../Graph/Edge.hpp"
+#include "../../Graph/Graph.hpp"
 
-template class Heap<Edge<int> >; 
+template class Heap<VertexCost>; 
 using namespace std;
 
 
@@ -99,7 +99,7 @@ object Heap<object>::extract(){
 template <class object>
 void Heap<object>::changeKey(int i, object data, string source){
 	if (this->data.at(i) > data){
-		cout << endl << "    Nova chave é menor que a atual." << endl;
+		//cout << endl << "    Nova chave é menor que a atual." << endl;
 		return;
 	}
 
@@ -113,12 +113,6 @@ void Heap<object>::changeKey(int i, object data, string source){
 				if (!this->compare(this->data.at(parent), this->data.at(i)))
 					break;
 			}
-			// Caso não seja a partir do método de remoção
-			/*else{
-				// "parent > i" = MAX HEAP, ou "parent < i" = MIN HEAP
-				if ((this->compare(this->data.at(parent), this->data.at(i))))
-					cout << "CHANGE" << endl;
-			}*/
 
 			this->exchange(i, parent);
 			i = parent;
@@ -240,7 +234,7 @@ void Heap<object>::printTree(int extraSpace){
 			if ((aux >= this->size))
 				break;
 
-			cout << this->data.at(aux).vertexSource() << " ";
+			cout << this->data.at(aux).vertexc << "(" << this->data.at(aux).cost << ") ";
 
 			cout << " ";
 		}
@@ -333,7 +327,7 @@ object Heap<object>::getRoot(){
 // Usado exclusivamente para a atualização dos custos de um vertice (PRIM)
 template <class object>
 void Heap<object>::updateCost(int ind, double cost){
-	this->data[ind].cost(cost);
+	this->data[ind].cost = cost;
 }
 
 

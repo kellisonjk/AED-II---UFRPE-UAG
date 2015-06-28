@@ -1,12 +1,10 @@
 /*
 * FloydWarshall.cpp
 *
-*  Created on: Jun 06, 2015
+*  Created on: Jun 25, 2015
 *      - Author: Kellison
 *		- Descrição:
 *			Implementação do algoritmo de FloydWarshall aplicado junto com a classe Graph.
-*		- Observações:
-*			Diferente do Kruskal, essa implementação é funciona apenas para grafos não direcionais
 *
 */
 

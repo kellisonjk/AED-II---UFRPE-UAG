@@ -31,7 +31,7 @@
 // Arquivo onde serão armazenados os dados das arestas
 #define FILEOUTPUT "../view/edges.csv"
 
-#define INF 999999999
+#define INF (double) 99999
 
 using namespace std;
 
@@ -59,22 +59,29 @@ public:
 	void saveFile(TVertex, TVertex, double);
 	void openFile(string);
 
+	void setDirecionado(bool);
+
 	void operator= (Graph<TVertex>&);
 
 	virtual ~Graph();
 private:
+	bool direcionado;
 	vector<TVertex> vertex;
 	vector< vector<TVertex> > adjacencyMatriz;
 	int edgeNumber;
 	ofstream outfile;
 };
 
+
+// Struct usado para o algoritmo de Dijkstra
 struct VertexCost{
 	int vertexc;
+	int vertex_prev;
 	double cost;
 	
-	void add(int v, double c){
+	void add(int v, double c, int p){
 		vertexc = v;
+		vertex_prev = p;
 		cost = c;
 	}
 
@@ -92,6 +99,10 @@ struct VertexCost{
 
 	bool operator<= (VertexCost data){
 		return (cost <= data.cost);
+	}
+	
+	bool operator== (VertexCost data){
+		return (cost == data.cost);
 	}
 };
 

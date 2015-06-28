@@ -57,6 +57,7 @@ grafos graficamente através do seu web browser. Para que seja possível a execu
 **2.2 Projeto 02 (2ª VA)**
 
 * Dijkstra
+	* Status: concluído.
 * Prim
 	* Status: concluído.
 + Kruskal 

@@ -26,7 +26,7 @@ void Prim<TVertex>::createMST(){
 
 	// Atribui custos infinitos aos vertices
 	for (int i = 0; i < number_vertex; i++){
-		vertex_cost.push_back(Edge<TVertex>(this->graph.getVertex(i),-1,INFINITY));
+		vertex_cost.push_back(Edge<TVertex>(this->graph.getVertex(i),-1,INF));
 	}
 
 	// Raiz do caminho (posição zero [inicial] do vetor de vertices)
@@ -39,7 +39,7 @@ void Prim<TVertex>::createMST(){
 	while (priority_queue.isEmpty() != true){
 		edge = priority_queue.extract();
 		vector<Edge<TVertex> > adj = this->graph.getAdjacents(edge.vertexSource());
-		//if (edge.cost() == INFINITY) break;
+		//if (edge.cost() == INF) break;
 
 		// Para todos os vizinho do vertice
 		for (int ind = 0; ind < adj.size(); ind++){

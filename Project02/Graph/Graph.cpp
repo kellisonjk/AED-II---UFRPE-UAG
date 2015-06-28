@@ -11,6 +11,10 @@
 *			->  (a,b, custo) != (b,a, custo)
 *		   UPDATE: o grafo não está considerando grafo direcional, apenas arestas simples serão consideradas, assim 
 *				   sendo:  (a,b, custo) == (b,a, custo)
+*		- Observação:
+*			Por padrão, o grafo é configurado como não direcional, assim, quando adiciona-se uma aresta
+*			a mesma ganhará um aresta simetrica. Para mudar essa configuração, o grafo deve ser configurado 
+*			para "true", usando o método "setDirecionado(bool)" da classe Graph.
 *
 */
 
@@ -29,6 +33,7 @@ Graph<TVertex>::Graph(string f_op){
 	// Para o arquivo "base de dados" das arestas
 	this->openFile(f_op);
 	this->edgeNumber = 0;
+	this->direcionado = false;
 }
 
 template <class TVertex>
@@ -43,6 +48,8 @@ Graph<TVertex>::Graph(string f_op, vector<TVertex> vertex){
 	for (int i = 0; i < (int) vertex.size(); i++){
 		this->adjacencyMatriz[i].resize(vertex.size(),INF);
 	}
+
+	this->direcionado = false;
 }
 
 template <class TVertex>
@@ -101,7 +108,8 @@ void Graph<TVertex>::setEdge(TVertex u, TVertex v, double cost){
 		int ind_v = this->getIndex(v);
 
 		this->adjacencyMatriz[ind_u][ind_v] = (double)cost;
-		//this->adjacencyMatriz[ind_v][ind_u] = (double)cost;
+		if (!(this->direcionado))
+			this->adjacencyMatriz[ind_v][ind_u] = (double)cost;
 
 		this->saveFile(ind_u, ind_v, cost);
 		this->edgeNumber++;
@@ -174,6 +182,7 @@ vector< Edge<TVertex> > Graph<TVertex>::getAdjacents(TVertex u){
 // apenas os elementos da matriz abaixo da diagonal principal (ja que é simetrica)
 template <class TVertex>
 vector< Edge<TVertex> > Graph<TVertex>::getAllEdges(){
+	int a;
 	try{
 		if (this->edgeNumber == 0)
 			throw out_of_range(" O grafo nao possui nenhuma aresta.");
@@ -181,8 +190,13 @@ vector< Edge<TVertex> > Graph<TVertex>::getAllEdges(){
 		vector< Edge<TVertex> > adj;
 
 		for (int i = 0; i < (int) this->vertex.size(); i++){
+			a = i;
+			
 			//vector< Edge<TVertex> > aux = this->getAdjacents(this->vertex.at(i));
-			for (int j = i; j < (int) this->vertex.size(); j++){
+			if (this->direcionado)
+				a = 0;
+
+			for (int j = a; j < (int) this->vertex.size(); j++){
 				if (this->adjacencyMatriz[i][j] != INF){
 					adj.push_back(Edge<TVertex>(this->vertex.at(i), this->vertex.at(j), this->adjacencyMatriz[i][j]));
 				}
@@ -260,6 +274,11 @@ void Graph<TVertex>::showAllVertex(){
 		cout << this->vertex.at(i);
 		cout << endl;
 	}
+}
+
+template <class TVertex>
+void Graph<TVertex>::setDirecionado(bool op){
+	this->direcionado = op;
 }
 
 // Método responsável por abrir o arquivo html de visualização do grafo
