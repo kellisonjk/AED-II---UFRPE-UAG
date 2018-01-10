@@ -1,6 +1,6 @@
 # Algoritmos e Estruturas de Dados II #
 
-### INSTRUNÇÕES - PROJETO 02###
+### INSTRUÇÕES - PROJETO 02###
 -----------------------
 
 #### - Execução do Projeto ####
@@ -12,7 +12,7 @@ agora cada um posuirá o seu próprio "Main" para testes dentro de seus diretór
 
 #### - Visualização dos Grafos - Web Browser ####
 
-As arestas dos grafos são salvos em arquivos .csv, mesmo após o fim da execução da aplicação esses dados permanecerão 
+As arestas dos grafos são salvas em arquivos .csv, mesmo após o fim da execução da aplicação esses dados permanecerão 
 salvos até a próxima execução da aplicação. O arquivo para visualização (`index.html`) está contido dentro da pasta `Project02/view`.
 
 *(UPDATE TEMPORÁRIO) Não há a necessidade de realizar a configuração citada neta parte do README, pois a opção para a visualização 
@@ -20,7 +20,7 @@ direta a partir do console está desabilitada.
 *(A execução da aplicação [console] não é afetada sem esta configuração)*
 
 O *Projeto 02* possui um método de visualização grafica desenvolvido com HTML5 e D3. Logo ao fim da execução da aplicação console, você terá a opção de escolher visualizar os 
-grafos graficamente através do seu web browser. Para que seja possível a execução desse método, é necessário realizar uma pequena configuração:
+grafos através do seu web browser. Para que seja possível a execução desse método, é necessário realizar uma pequena configuração:
 
 * Abra o arquivo `Graph.hpp` em `Project02/Graph/` 
 * Edite a linha abaixo, trocando `<CAMINHO>` pelo caminho completo em que o repositório foi clonado:
